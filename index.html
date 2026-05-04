@@ -1,0 +1,957 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pretty Crafter - Gantungan Bunga Hiasan Cantik</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="./assets/file.svg" />
+    <link rel="stylesheet" href="./style.css" />
+    <!-- Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Poppins", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "Cormorant Garamond", serif;
+        font-weight: 600;
+      }
+      /* Muted Color Palette */
+      :root {
+        --pink-primary: #d4839a;
+        --pink-light: #e8c4cf;
+        --pink-lighter: #f3dce3;
+        --pink-dark: #b8697f;
+        --text-primary: #5a4a52;
+        --text-secondary: #8b7a83;
+      }
+    </style>
+    <style>
+      /* CTA Background Animation - FIXED: Added overflow containment */
+      .cta-final {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-final::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 1px,
+          transparent 1px
+        );
+        background-size: 50px 50px;
+        background-position: 0 0;
+      }
+
+      .cta-final > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .cta-final a {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Hero image hover animation */
+      .hero-image img {
+        transition:
+          transform 0.4s ease,
+          filter 0.4s ease;
+        filter: brightness(1);
+      }
+
+      .hero-image:hover img {
+        transform: scale(1.03);
+        filter: brightness(1.02);
+      }
+
+      /* Product image hover - subtle */
+      .product-image {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .product-card {
+        transition:
+          box-shadow 0.3s ease,
+          transform 0.3s ease;
+      }
+
+      .product-card:hover {
+        box-shadow: 0 8px 20px rgba(212, 131, 154, 0.12);
+        transform: translateY(-2px);
+      }
+
+      /* Subtle button hover */
+      button:hover,
+      a[class*="bg-"]:hover {
+        transition: all 0.3s ease;
+      }
+
+      /* Scroll-to-top button styling */
+      .scroll-to-top:not(.hidden) {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+      }
+
+      /* Dark Mode Toggle Button */
+      .dark-mode-toggle {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        cursor: pointer;
+      }
+
+      .dark-mode-toggle svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* SVG Icons Animation */
+      .moon-icon,
+      .sun-icon {
+        transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        transform-origin: center;
+      }
+
+      .dark-mode-toggle:hover svg {
+        transform: rotate(20deg);
+      }
+
+      html.dark .dark-mode-toggle:hover svg {
+        transform: rotate(-20deg);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav
+      class="navbar fixed top-0 left-0 right-0 w-full z-50 bg-white dark:bg-[#1a1a1a] shadow-sm border-b border-gray-100 dark:border-gray-800 transition-colors duration-300"
+    >
+      <div
+        class="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center"
+      >
+        <!-- Left: Dark Mode Toggle + Logo Section -->
+        <div class="flex items-center gap-3">
+          <!-- Dark Mode Toggle -->
+          <button
+            class="dark-mode-toggle w-10 h-10 rounded-full flex items-center justify-center bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-all duration-300"
+            id="darkModeBtn"
+            aria-label="Toggle dark mode"
+            title="Dark Mode"
+          >
+            <svg
+              class="w-5 h-5 text-[#d4839a] dark:text-[#f0a8ba] transition-all"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <!-- Moon Icon (Light Mode) -->
+              <circle class="moon-icon" cx="12" cy="12" r="5" opacity="1" />
+              <path
+                class="moon-icon"
+                d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                opacity="1"
+              />
+              <!-- Sun Icon (Dark Mode) -->
+              <circle class="sun-icon" cx="12" cy="12" r="5" opacity="0" />
+              <path
+                class="sun-icon"
+                d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m3.08 3.08l4.24 4.24M1 12h6m6 0h6m-15.78 7.78l4.24-4.24m3.08-3.08l4.24-4.24"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                opacity="0"
+              />
+            </svg>
+          </button>
+
+          <!-- Logo Section -->
+          <div class="logo-section flex items-center gap-2">
+            <img
+              src="./assets/file.svg"
+              alt="Pretty Crafter Logo"
+              class="w-8 h-8 logo-round"
+            />
+            <span
+              class="font-semibold text-lg text-[#5a4a52] dark:text-gray-100 brand-font"
+              >Pretty Crafter</span
+            >
+          </div>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button
+          class="md:hidden text-[#8b7a83] dark:text-gray-300 ml-3"
+          id="mobileMenuBtn"
+          aria-label="Toggle mobile menu"
+        >
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+
+        <!-- Nav Links -->
+        <ul class="nav-links hidden md:flex gap-8 items-center text-sm">
+          <li>
+            <a
+              href="#home"
+              class="nav-link text-[#8b7a83] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba] transition"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="#produk"
+              class="nav-link text-[#8b7a83] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba] transition"
+              >Produk</a
+            >
+          </li>
+          <li>
+            <a
+              href="#testimoni"
+              class="nav-link text-[#8b7a83] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba] transition"
+              >Testimoni</a
+            >
+          </li>
+          <li>
+            <a
+              href="#cara-order"
+              class="nav-link text-[#8b7a83] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba] transition"
+              >Cara Order</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://wa.me/6281237705049?text=Halo%20Pretty%20Crafter%20Saya%20ingin%20memesan%20produk%20Anda"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="nav-link cta-button bg-[#d4839a] dark:bg-[#c2707e] text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-[#c2707e] dark:hover:bg-[#d4839a] hover:shadow-md dark:hover:shadow-lg transition-all flex items-center gap-2"
+            >
+              <i class="fab fa-whatsapp text-sm"></i> WhatsApp
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        class="mobile-menu hidden md:hidden bg-[#f3dce3] dark:bg-[#1a1a1a] dark:border-b dark:border-[#d4839a]/20 px-4 py-3 transition-colors duration-300"
+      >
+        <ul class="flex flex-col gap-3 text-sm">
+          <li>
+            <a
+              href="#home"
+              class="nav-link text-[#5a4a52] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba]"
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="#produk"
+              class="nav-link text-[#5a4a52] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba]"
+              >Produk</a
+            >
+          </li>
+          <li>
+            <a
+              href="#testimoni"
+              class="nav-link text-[#5a4a52] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba]"
+              >Testimoni</a
+            >
+          </li>
+          <li>
+            <a
+              href="#cara-order"
+              class="nav-link text-[#5a4a52] dark:text-gray-300 hover:text-[#d4839a] dark:hover:text-[#f0a8ba]"
+              >Cara Order</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://wa.me/6281237705049?text=Halo%20Pretty%20Crafter%20Saya%20ingin%20memesan%20produk%20Anda"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="nav-link cta-button bg-[#d4839a] dark:bg-[#c2707e] text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-[#c2707e] dark:hover:bg-[#d4839a] transition-all flex items-center gap-2 w-full justify-center"
+            >
+              <i class="fab fa-whatsapp text-sm"></i> WhatsApp
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+      <div class="hero-tint" aria-hidden="true"></div>
+      <div class="hero-decor hero-decor-left" aria-hidden="true"></div>
+      <div class="hero-decor hero-decor-right" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="hero-left">
+          <span class="hero-label">Pretty Crafter</span>
+          <h1 class="hero-title">
+            Sentuhan bunga handmade untuk gaya yang lebih hidup
+          </h1>
+          <p class="hero-tagline">
+            Gantungan handmade dengan sentuhan elegan, dirancang untuk
+            melengkapi gaya harianmu dengan kesan lembut dan istimewa.
+          </p>
+          <a
+            href="https://wa.me/6281237705049?text=Halo%20Pretty%20Crafter%20Saya%20ingin%20memesan%20produk%20Anda"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hero-cta"
+          >
+            Pesan via WhatsApp
+          </a>
+        </div>
+        <div class="hero-right">
+          <div class="hero-logo-card">
+            <img
+              src="./assets/pretty%20crafter_page-0001.jpg"
+              alt="Pretty Crafter Logo"
+              class="hero-logo-large"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUK SECTION -->
+    <section
+      id="produk"
+      class="produk py-8 md:py-12 bg-linear-to-b from-white via-[#f9f5f6] to-white dark:from-[#0f0f0f] dark:via-[#1a1a1a] dark:to-[#0f0f0f] transition-colors duration-300"
+    >
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl md:text-5xl font-semibold text-center text-[#5a4a52] dark:text-gray-100 mb-6"
+        >
+          Koleksi Produk
+        </h2>
+        <p
+          class="text-center text-[#8b7a83] dark:text-gray-400 text-lg mb-16 max-w-2xl mx-auto font-light"
+        >
+          Setiap desain dibuat dengan detail yang teliti dan material pilihan
+          untuk memberikan keindahan yang bertahan lama.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Produk 1 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] dark:from-gray-700 dark:to-gray-600 h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/cherry.jpeg"
+                alt="Gantungan Cherry"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Cherry
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Desain bunga cherry yang manis dengan sentuhan warna lembut,
+                menghadirkan kesan ceria dan penuh kehangatan dalam setiap
+                detail kecil.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 5.000</span
+                >
+              </div>
+              <a
+                href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Bunga%20Cherry%20Pretty%20Crafter"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full bg-[#d4839a] dark:bg-[#c2707e] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] dark:hover:bg-[#d4839a] transition-all duration-300 text-sm text-center block"
+              >
+                <i class="fab fa-whatsapp mr-2"></i> Pesan
+              </a>
+            </div>
+          </div>
+
+          <!-- Produk 2 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] dark:from-gray-700 dark:to-gray-600 h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/bunga_daisy.jpeg"
+                alt="Gantungan Bunga Daisy"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Bunga Daisy
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Bunga daisy dengan tampilan sederhana namun elegan, memberikan
+                nuansa ringan, fresh, dan romantis yang tak berlebihan.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 5.000</span
+                >
+              </div>
+              <a
+                href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Bunga%20Daisy%20Pretty%20Crafter"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full bg-[#d4839a] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] transition-all duration-300 text-sm text-center block"
+              >
+                <i class="fab fa-whatsapp mr-2"></i> Pesan
+              </a>
+            </div>
+          </div>
+
+          <!-- Produk 3 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/pita.jpeg"
+                alt="Gantungan pita"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Pita
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Kombinasi desain dalam satu paket dengan tampilan yang beragam,
+                menghadirkan pilihan aksen yang playful dan tetap harmonis.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 4.000</span
+                >
+              </div>
+              <a
+                href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Pita%20Pretty%20Crafter"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full bg-[#d4839a] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] transition-all duration-300 text-sm text-center block"
+              >
+                <i class="fab fa-whatsapp mr-2"></i> Pesan
+              </a>
+            </div>
+          </div>
+
+          <!-- Produk 4 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/daisy_ungu.jpeg"
+                alt="Gantungan Bunga Lily"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Bunga Lily
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Bunga lily dengan kelopak berlapis yang anggun, menciptakan
+                kesan elegan dan berkelas dalam sentuhan yang lembut.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 6.000</span
+                >
+              </div>
+              <a
+                href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Bunga%20Lily%20Pretty%20Crafter"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="w-full bg-[#d4839a] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] transition-all duration-300 text-sm text-center block"
+              >
+                <i class="fab fa-whatsapp mr-2"></i> Pesan
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONI SECTION -->
+    <section
+      id="testimoni"
+      class="testimoni py-8 md:py-12 bg-white dark:bg-[#0f0f0f] transition-colors duration-300"
+    >
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl md:text-5xl font-semibold text-center text-[#5a4a52] dark:text-gray-100 mb-6"
+        >
+          Kepuasan <span class="text-[#d4839a]">Pelanggan</span>
+        </h2>
+        <p
+          class="text-center text-[#8b7a83] dark:text-gray-400 text-lg mb-16 max-w-2xl mx-auto font-light"
+        >
+          Dengarkan cerita indah dari pelanggan kami yang telah mempercayai
+          Pretty Crafter.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Testimoni 1 -->
+          <div
+            class="testimonial-card bg-linear-to-br from-[#f9f5f6] to-white dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl shadow-sm border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div class="flex items-center mb-5">
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#d4839a] to-[#b8697f] rounded-full flex items-center justify-center text-white text-lg font-semibold"
+              >
+                FB
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-[#5a4a52] dark:text-gray-200">
+                  Flourensia Bullu
+                </h4>
+                <p class="text-xs text-[#8b7a83] dark:text-gray-400">Kupang</p>
+              </div>
+            </div>
+            <p
+              class="text-[#5a4a52] dark:text-gray-300 leading-relaxed text-sm font-light"
+            >
+              "Awalnya coba-coba aja, ternyata hasilnya beneran rapi dan
+              detailnya halus banget. Kecil tapi lucu, jadi suka diliat terus."
+            </p>
+          </div>
+
+          <!-- Testimoni 2 -->
+          <div
+            class="testimonial-card bg-linear-to-br from-[#f9f5f6] to-white dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl shadow-sm border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div class="flex items-center mb-5">
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#d4839a] to-[#b8697f] rounded-full flex items-center justify-center text-white text-lg font-semibold"
+              >
+                CN
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-[#5a4a52] dark:text-gray-200">
+                  Claudya Ndolu
+                </h4>
+                <p class="text-xs text-[#8b7a83] dark:text-gray-400">Kupang</p>
+              </div>
+            </div>
+            <p
+              class="text-[#5a4a52] dark:text-gray-300 leading-relaxed text-sm font-light"
+            >
+              "Warnanya lembut dan sesuai foto, nggak nyangka bakal sebagus ini.
+              Kelihatan simpel tapi tetap ada kesan elegannya."
+            </p>
+          </div>
+
+          <!-- Testimoni 3 -->
+          <div
+            class="testimonial-card bg-linear-to-br from-[#f9f5f6] to-white dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl shadow-sm border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div class="flex items-center mb-5">
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#d4839a] to-[#b8697f] rounded-full flex items-center justify-center text-white text-lg font-semibold"
+              >
+                EL
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-[#5a4a52] dark:text-gray-200">
+                  Esmeralda De Lemos
+                </h4>
+                <p class="text-xs text-[#8b7a83] dark:text-gray-400">Kupang</p>
+              </div>
+            </div>
+            <p
+              class="text-[#5a4a52] dark:text-gray-300 leading-relaxed text-sm font-light"
+            >
+              "Packaging-nya juga cantik, jadi makin berasa spesial. Produknya
+              sendiri ringan dan detailnya keliatan banget dibuat dengan
+              teliti."
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CARA ORDER SECTION -->
+    <section
+      id="cara-order"
+      class="cara-order py-8 md:py-12 bg-linear-to-b from-white via-[#f9f5f6] to-white dark:from-[#0f0f0f] dark:via-[#1a1a1a] dark:to-[#0f0f0f] transition-colors duration-300"
+    >
+      <div class="container mx-auto px-4">
+        <h2
+          class="text-4xl md:text-5xl font-semibold text-center text-[#5a4a52] dark:text-gray-100 mb-6"
+        >
+          Cara Order <span class="text-[#d4839a]">Mudah</span>
+        </h2>
+        <p
+          class="text-center text-[#8b7a83] dark:text-gray-400 text-lg mb-16 max-w-2xl mx-auto font-light"
+        >
+          Proses pemesanan yang simpel dan cepat untuk kenyamanan Anda.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          <!-- Step 1 -->
+          <div
+            class="step-card bg-white dark:bg-gray-800 p-8 rounded-2xl text-center shadow-sm hover:shadow-md border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div
+              class="w-14 h-14 bg-[#d4839a] text-white rounded-full flex items-center justify-center text-2xl font-semibold mx-auto mb-4"
+            >
+              1
+            </div>
+            <h3
+              class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200 mb-3"
+            >
+              Pilih Produk
+            </h3>
+            <p class="text-[#8b7a83] dark:text-gray-400 text-sm font-light">
+              Lihat koleksi produk kami dan pilih gantungan bunga yang paling
+              Anda suka.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div
+            class="step-card bg-white dark:bg-gray-800 p-8 rounded-2xl text-center shadow-sm hover:shadow-md border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div
+              class="w-14 h-14 bg-[#d4839a] text-white rounded-full flex items-center justify-center text-2xl font-semibold mx-auto mb-4"
+            >
+              2
+            </div>
+            <h3
+              class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200 mb-3"
+            >
+              Chat WhatsApp
+            </h3>
+            <p class="text-[#8b7a83] dark:text-gray-400 text-sm font-light">
+              Hubungi kami via WhatsApp untuk konfirmasi pesanan dan detail
+              produk.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div
+            class="step-card bg-white dark:bg-gray-800 p-8 rounded-2xl text-center shadow-sm hover:shadow-md border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div
+              class="w-14 h-14 bg-[#d4839a] text-white rounded-full flex items-center justify-center text-2xl font-semibold mx-auto mb-4"
+            >
+              3
+            </div>
+            <h3
+              class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200 mb-3"
+            >
+              Pembayaran
+            </h3>
+            <p class="text-[#8b7a83] dark:text-gray-400 text-sm font-light">
+              Transfer biaya terlebih dahulu atau bayar setelah barang diterima
+              (cash on delivery).
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          <!-- Option 1 -->
+          <div
+            class="option-card bg-white dark:bg-gray-800 p-8 rounded-2xl border-2 border-[#e8c4cf] dark:border-gray-700 shadow-sm transition-colors duration-300"
+          >
+            <h3
+              class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba] mb-6"
+            >
+              <i class="fas fa-credit-card mr-2"></i> Transfer Dulu
+            </h3>
+            <ol class="space-y-4 text-[#5a4a52] dark:text-gray-300 text-sm">
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >1</span
+                >
+                <span class="font-light"
+                  >Konfirmasi pesanan melalui WhatsApp</span
+                >
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >2</span
+                >
+                <span class="font-light">Terima rekening bank kami</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >3</span
+                >
+                <span class="font-light">Transfer pembayaran</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >4</span
+                >
+                <span class="font-light">Kami siapkan barang dan kirimkan</span>
+              </li>
+            </ol>
+          </div>
+
+          <!-- Option 2 -->
+          <div
+            class="option-card bg-white dark:bg-gray-800 p-8 rounded-2xl border-2 border-[#e8c4cf] dark:border-gray-700 shadow-sm transition-colors duration-300"
+          >
+            <h3
+              class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba] mb-6"
+            >
+              <i class="fas fa-truck mr-2"></i> Bayar Saat Terima (COD)
+            </h3>
+            <ol class="space-y-4 text-[#5a4a52] dark:text-gray-300 text-sm">
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >1</span
+                >
+                <span class="font-light"
+                  >Konfirmasi pesanan melalui WhatsApp</span
+                >
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >2</span
+                >
+                <span class="font-light">Kami siapkan barang dan kirimkan</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >3</span
+                >
+                <span class="font-light"
+                  >Bayar langsung kepada kurir saat barang tiba</span
+                >
+              </li>
+              <li class="flex items-start gap-3">
+                <span
+                  class="bg-[#d4839a] text-white rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shrink-0"
+                  >4</span
+                >
+                <span class="font-light">Nikmati produk impianmu</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        <div class="text-center">
+          <a
+            href="https://wa.me/6281237705049?text=Halo%20Pretty%20Crafter%20Saya%20ingin%20memesan%20produk%20Anda"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 bg-[#d4839a] text-white px-8 py-3 rounded-full font-medium text-sm hover:bg-[#c2707e] hover:shadow-md transition-all duration-300"
+          >
+            <i class="fab fa-whatsapp"></i> Mulai Pesan Sekarang
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA SECTION (CALL TO ACTION) -->
+    <section
+      class="cta-final bg-linear-to-r from-[#d4839a] to-[#c2707e] dark:from-[#4a3a45] dark:to-[#2a1a25] py-20 text-white transition-colors duration-300 dark:border-t dark:border-[#d4839a]/20"
+    >
+      <div class="container mx-auto px-4 text-center">
+        <h2 class="text-3xl md:text-4xl font-semibold mb-4">
+          Waktunya Tambahkan Sentuhan Manis
+        </h2>
+        <p class="text-lg mb-8 opacity-95 font-light max-w-2xl mx-auto">
+          Koleksi Pretty Crafter siap menghadirkan detail kecil yang penuh
+          pesona. Temukan favoritmu dan rasakan bedanya.
+        </p>
+        <a
+          href="https://wa.me/6281237705049?text=Halo%20Pretty%20Crafter%20Saya%20ingin%20memesan%20produk%20Anda"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 bg-white text-[#d4839a] dark:bg-[#1a1a1a] dark:text-[#f0a8ba] dark:border dark:border-[#d4839a]/30 px-8 py-3 rounded-full font-medium text-sm hover:bg-gray-50 dark:hover:bg-[#2a2a2a] dark:hover:border-[#d4839a]/50 hover:shadow-lg dark:hover:shadow-lg transition-all duration-300"
+        >
+          <i class="fab fa-whatsapp"></i> Chat WhatsApp Sekarang
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer
+      class="footer bg-[#5a4a52] dark:bg-[#0f0f0f] text-white py-12 transition-colors duration-300 dark:border-t dark:border-[#d4839a]/10"
+    >
+      <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
+          <!-- About -->
+          <div>
+            <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+              <i class="fas fa-flower text-[#d4839a] text-xl"></i>
+              <span class="brand-font">Pretty Crafter</span>
+            </h3>
+            <p
+              class="text-gray-300 dark:text-gray-400 text-sm font-light leading-relaxed"
+            >
+              Menciptakan gantungan bunga berkualitas untuk mempercantik setiap
+              sudut rumah dan ruangan Anda.
+            </p>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Menu</h4>
+            <ul
+              class="space-y-2 text-gray-300 dark:text-gray-400 text-sm font-light"
+            >
+              <li>
+                <a href="#home" class="hover:text-[#d4839a] transition">Home</a>
+              </li>
+              <li>
+                <a href="#produk" class="hover:text-[#d4839a] transition"
+                  >Produk</a
+                >
+              </li>
+              <li>
+                <a href="#testimoni" class="hover:text-[#d4839a] transition"
+                  >Testimoni</a
+                >
+              </li>
+              <li>
+                <a href="#cara-order" class="hover:text-[#d4839a] transition"
+                  >Cara Order</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Hubungi Kami</h4>
+            <ul
+              class="space-y-3 text-gray-300 dark:text-gray-400 text-sm font-light"
+            >
+              <li class="flex items-center gap-3">
+                <i class="fab fa-whatsapp text-[#d4839a] w-4"></i>
+                <a
+                  href="https://wa.me/6281237705049"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-[#d4839a] transition"
+                  >+62 812 377 05049</a
+                >
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-envelope text-[#d4839a] w-4"></i>
+                <a
+                  href="mailto:amaralrambunggara@gmail.com"
+                  class="hover:text-[#d4839a] transition"
+                  >amaralrambunggara@gmail.com</a
+                >
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-map-marker-alt text-[#d4839a] w-4"></i>
+                <span>Kota Kupang, Nusa Tenggara Timur</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Social Media -->
+          <div>
+            <h4 class="text-lg font-semibold mb-4">Follow Kami</h4>
+            <div class="flex gap-3">
+              <a
+                href="https://www.instagram.com/prettycrafter_?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Instagram"
+                class="bg-[#d4839a] hover:bg-[#c2707e] w-10 h-10 rounded-full flex items-center justify-center text-sm transition"
+              >
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a
+                href="https://wa.me/6281237705049"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="WhatsApp"
+                class="bg-[#d4839a] hover:bg-[#c2707e] w-10 h-10 rounded-full flex items-center justify-center text-sm transition"
+              >
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-gray-600 dark:border-[#d4839a]/20 mb-8" />
+
+        <!-- Bottom Footer -->
+        <div
+          class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-400 dark:text-gray-500 font-light"
+        >
+          <p>&copy; 2026 Pretty Crafter. Semua hak dilindungi.</p>
+        </div>
+      </div>
+    </footer>
+    <!-- Scroll to Top Button -->
+    <button
+      id="scrollToTopBtn"
+      class="scroll-to-top hidden fixed bottom-6 right-6 bg-[#d4839a] dark:bg-[#4a3a45] dark:border dark:border-[#d4839a]/40 text-white dark:text-[#f0a8ba] w-12 h-12 rounded-full shadow-sm hover:bg-[#c2707e] dark:hover:bg-[#5a4a55] dark:hover:border-[#d4839a] hover:shadow-md dark:hover:shadow-lg transition z-40"
+      aria-label="Scroll to top"
+    >
+      <i class="fas fa-arrow-up text-sm"></i>
+    </button>
+    <script src="./script.js" defer></script>
+  </body>
+</html>

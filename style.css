@@ -1,0 +1,387 @@
+@config "./tailwind.config.js";
+@import "tailwindcss";
+
+/* Prevent horizontal scroll */
+html, body {
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+body {
+  padding-top: clamp(64px, 9vh, 88px);
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* Smooth theme transitions */
+*,
+*::before,
+*::after {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Add page padding so content feels more centered */
+.container {
+  padding-left: clamp(1.25rem, 6vw, 5rem);
+  padding-right: clamp(1.25rem, 6vw, 5rem);
+}
+
+/* Cancel global container padding inside navbar */
+.navbar .container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Cormorant Garamond font for branding */
+.brand-font {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+
+.hero {
+  position: relative;
+  min-height: calc(100vh - clamp(64px, 9vh, 88px));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: left;
+  padding: clamp(4.5rem, 12vh, 7.5rem) clamp(1.5rem, 6vw, 6rem) 4rem;
+  color: #5a4a52;
+  overflow: hidden;
+  background: linear-gradient(160deg, #fff6f8 0%, #f9e6ec 40%, #fffafc 100%);
+  transition: background 0.5s ease;
+}
+
+.hero-tint {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+      180deg,
+      rgba(255, 245, 247, 0.9) 0%,
+      rgba(255, 245, 247, 0.6) 60%,
+      rgba(255, 245, 247, 0.9) 100%
+    ),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.85), transparent 55%);
+  transition: background 0.5s ease;
+}
+
+.hero-decor {
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0.5;
+  background: radial-gradient(circle, rgba(247, 212, 221, 0.8), transparent 70%);
+}
+
+.hero-decor-left {
+  width: 320px;
+  height: 320px;
+  top: 8%;
+  left: -6%;
+}
+
+.hero-decor-right {
+  width: 260px;
+  height: 260px;
+  bottom: 10%;
+  right: -4%;
+  background: radial-gradient(circle, rgba(253, 231, 214, 0.7), transparent 70%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(2rem, 6vw, 4rem);
+  align-items: center;
+}
+
+.hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.hero-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-label {
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #d4839a;
+  font-weight: 600;
+}
+
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.2;
+  color: #5a4a52;
+  margin: 0;
+}
+
+.hero-logo-large {
+  width: min(380px, 78vw);
+  height: auto;
+  border-radius: 32px;
+  filter: drop-shadow(0 18px 30px rgba(179, 104, 123, 0.25));
+}
+
+.hero-tagline {
+  font-size: clamp(1rem, 2vw, 1.15rem);
+  color: #6b5a63;
+  font-weight: 400;
+  max-width: 520px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 2.4rem;
+  background: #d4839a;
+  color: #ffffff;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  box-shadow: 0 14px 26px rgba(212, 131, 154, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.hero-logo-card {
+  padding: clamp(1.8rem, 4vw, 2.6rem);
+  border-radius: 44px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 24px 60px rgba(183, 120, 136, 0.18),
+    0 8px 18px rgba(255, 255, 255, 0.6) inset;
+  backdrop-filter: blur(10px);
+  transition: background-color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.hero-cta:hover {
+  transform: translateY(-1px);
+  background: #c2707e;
+  box-shadow: 0 18px 34px rgba(212, 131, 154, 0.35);
+}
+
+.hero-logo {
+  width: 42px;
+  height: 42px;
+}
+
+.logo-round,
+.hero-logo {
+  border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    text-align: center;
+    padding: 5.5rem 6% 3.5rem;
+  }
+
+  .hero-content {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-left {
+    align-items: center;
+  }
+
+  .hero-tagline {
+    max-width: 100%;
+  }
+
+  .hero-tint {
+    background: linear-gradient(
+        180deg,
+        rgba(255, 245, 247, 0.95) 0%,
+        rgba(255, 245, 247, 0.7) 60%,
+        rgba(255, 245, 247, 0.95) 100%
+      ),
+      radial-gradient(circle at 50% 15%, rgba(255, 255, 255, 0.9), transparent 55%);
+  }
+}
+
+/* ============================================
+   DARK MODE COMPREHENSIVE STYLING
+   ============================================ */
+
+/* Dark mode base colors with elegant touches */
+html.dark {
+  --dark-bg: #0f0f0f;
+  --dark-surface: #1a1a1a;
+  --dark-surface-light: #2a2a2a;
+  --dark-border: #333333;
+  --pink-accent: #e8a8c8;
+  --pink-night: #2b1a1f;
+  --pink-night-soft: #3a232b;
+  --text-night: #f2e9ee;
+  --text-night-muted: #cbb8c1;
+}
+
+html.dark {
+  background-color: var(--dark-bg);
+  color: #e0e0e0;
+}
+
+/* Dark mode text refinement */
+html.dark body {
+  background-color: var(--dark-bg);
+  color: #d8d8d8;
+}
+
+/* Dark mode hero styling */
+html.dark .hero {
+  background: linear-gradient(160deg, #2b1a1f 0%, #3a232b 45%, #24161b 100%);
+  color: var(--text-night);
+}
+
+html.dark .hero-tint {
+  background: linear-gradient(
+      180deg,
+      rgba(43, 26, 31, 0.9) 0%,
+      rgba(43, 26, 31, 0.65) 60%,
+      rgba(43, 26, 31, 0.9) 100%
+    ),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.07), transparent 55%);
+}
+
+html.dark .hero-label {
+  color: #c58aa0;
+}
+
+html.dark .hero-title {
+  color: var(--text-night);
+}
+
+html.dark .hero-tagline {
+  color: var(--text-night-muted);
+}
+
+html.dark .hero-cta {
+  background: #b06b83;
+  color: #fff5f8;
+  box-shadow: 0 14px 26px rgba(176, 107, 131, 0.25);
+}
+
+html.dark .hero-cta:hover {
+  background: #9c5d74;
+  box-shadow: 0 18px 34px rgba(176, 107, 131, 0.35);
+}
+
+html.dark .hero-logo-card {
+  background: rgba(24, 18, 21, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    0 8px 18px rgba(255, 255, 255, 0.04) inset;
+}
+
+/* Dark mode links inherit text color to avoid overriding CTA/icons */
+html.dark a {
+  color: inherit;
+}
+
+html.dark a:hover {
+  color: inherit;
+}
+
+/* Dark mode buttons with elegant styling */
+html.dark button {
+  transition: all 0.3s ease;
+}
+
+/* Dark mode cards with subtle pink border hint */
+html.dark .product-card,
+html.dark .testimonial-card,
+html.dark .step-card,
+html.dark .option-card {
+  border-color: rgba(212, 131, 154, 0.15);
+  background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
+}
+
+html.dark .product-card:hover,
+html.dark .testimonial-card:hover,
+html.dark .step-card:hover {
+  border-color: rgba(212, 131, 154, 0.25);
+  box-shadow: 0 4px 20px rgba(212, 131, 154, 0.1);
+}
+
+/* Dark mode input styling */
+html.dark input,
+html.dark textarea,
+html.dark select {
+  background-color: var(--dark-surface-light);
+  color: #e0e0e0;
+  border-color: var(--dark-border);
+}
+
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  border-color: #d4839a;
+  box-shadow: 0 0 0 3px rgba(212, 131, 154, 0.1);
+}
+
+/* Dark mode scrollbar */
+html.dark ::-webkit-scrollbar {
+  width: 10px;
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: rgba(212, 131, 154, 0.3);
+  border-radius: 5px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 131, 154, 0.5);
+}
+
+/* Dark mode shadow adjustments */
+html.dark .shadow-sm {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .shadow-md {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5) !important;
+}
+
+html.dark .shadow-lg {
+  box-shadow: 0 10px 15px rgba(212, 131, 154, 0.1) !important;
+}
+
+/* Dark mode divider/separator styling */
+html.dark hr {
+  border-color: rgba(212, 131, 154, 0.1);
+}
+
+/* Dark mode focus ring */
+html.dark *:focus-visible {
+  outline-color: #d4839a;
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
