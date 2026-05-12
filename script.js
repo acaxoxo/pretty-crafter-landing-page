@@ -211,7 +211,392 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // 11. CONSOLE MESSAGE
+    // 11. CART
+    // ============================================
+    const cartToggleButtons = document.querySelectorAll('[data-cart-toggle]');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const cartCountBadges = document.querySelectorAll('[data-cart-count]');
+    const cartWhatsAppBtn = document.getElementById('cartWhatsAppBtn');
+    const cartClearBtn = document.getElementById('cartClearBtn');
+    const cartFormDetails = document.querySelector('.cart-form');
+    const checkoutName = document.getElementById('checkoutName');
+    const checkoutPhone = document.getElementById('checkoutPhone');
+    const checkoutAddress = document.getElementById('checkoutAddress');
+    const checkoutPayment = document.getElementById('checkoutPayment');
+    const checkoutDelivery = document.getElementById('checkoutDelivery');
+
+    const cartStorageKey = 'pretty_crafter_cart';
+    const checkoutStorageKey = 'pretty_crafter_checkout';
+    const waNumber = '6281237705049';
+
+    const parsePrice = (value) => {
+        const numeric = Number(value);
+        return Number.isFinite(numeric) ? numeric : 0;
+    };
+
+    const formatRupiah = (value) => `Rp ${Number(value).toLocaleString('id-ID')}`;
+
+    const loadCart = () => {
+        try {
+            const stored = localStorage.getItem(cartStorageKey);
+            return stored ? JSON.parse(stored) : [];
+        } catch (error) {
+            return [];
+        }
+    };
+
+    const saveCart = () => {
+        localStorage.setItem(cartStorageKey, JSON.stringify(cart));
+    };
+
+    const loadCheckout = () => {
+        try {
+            const stored = localStorage.getItem(checkoutStorageKey);
+            return stored ? JSON.parse(stored) : {};
+        } catch (error) {
+            return {};
+        }
+    };
+
+    const saveCheckout = () => {
+        const details = getCheckoutDetails();
+        localStorage.setItem(checkoutStorageKey, JSON.stringify(details));
+    };
+
+    const updateCartCount = () => {
+        const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+        cartCountBadges.forEach(badge => {
+            badge.textContent = totalCount;
+        });
+    };
+
+    const getCheckoutDetails = () => ({
+        name: (checkoutName?.value || '').trim(),
+        phone: (checkoutPhone?.value || '').trim(),
+        address: (checkoutAddress?.value || '').trim(),
+        payment: (checkoutPayment?.value || '').trim(),
+        delivery: (checkoutDelivery?.value || '').trim()
+    });
+
+    const isCheckoutComplete = () => {
+        const details = getCheckoutDetails();
+        return details.name && details.phone && details.address && details.payment && details.delivery;
+    };
+
+    const buildWhatsAppMessage = () => {
+        if (cart.length === 0) {
+            return '';
+        }
+
+        if (!isCheckoutComplete()) {
+            return '';
+        }
+
+        const lines = ['Halo Pretty Crafter, saya ingin memesan:'];
+        cart.forEach(item => {
+            const subtotal = item.price * item.qty;
+            lines.push(`- ${item.name} x${item.qty} (${formatRupiah(subtotal)})`);
+        });
+        lines.push(`Total: ${formatRupiah(getCartTotal())}`);
+        const details = getCheckoutDetails();
+        lines.push('');
+        lines.push('Data pemesan:');
+        lines.push(`- Nama: ${details.name}`);
+        lines.push(`- No HP: ${details.phone}`);
+        lines.push(`- Alamat: ${details.address}`);
+        lines.push(`- Metode pembayaran: ${details.payment}`);
+        lines.push(`- Pengantaran: ${details.delivery}`);
+        lines.push('Terima kasih.');
+
+        return encodeURIComponent(lines.join('\n'));
+    };
+
+    const getCartTotal = () => cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+    const renderCart = () => {
+        if (!cartItems || !cartTotal || !cartWhatsAppBtn) {
+            return;
+        }
+
+        cartItems.innerHTML = '';
+
+        if (cart.length === 0) {
+            const empty = document.createElement('p');
+            empty.className = 'cart-empty';
+            empty.textContent = 'Keranjang masih kosong.';
+            cartItems.appendChild(empty);
+        } else {
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.dataset.id = item.id;
+                itemElement.innerHTML = `
+                    <div>
+                        <span class="cart-item-name">${item.name}</span>
+                        <span class="cart-item-price">${formatRupiah(item.price)}</span>
+                    </div>
+                    <div class="cart-item-actions">
+                        <button class="cart-qty-btn" type="button" data-action="decrease">-</button>
+                        <span class="cart-qty">${item.qty}</span>
+                        <button class="cart-qty-btn" type="button" data-action="increase">+</button>
+                    </div>
+                    <button class="cart-remove" type="button" data-action="remove">Hapus</button>
+                `;
+                cartItems.appendChild(itemElement);
+            });
+        }
+
+        cartTotal.textContent = formatRupiah(getCartTotal());
+        updateCartCount();
+
+        if (cartFormDetails) {
+            cartFormDetails.open = cart.length > 0;
+        }
+
+        const message = buildWhatsAppMessage();
+        if (message) {
+            cartWhatsAppBtn.href = `https://wa.me/${waNumber}?text=${message}`;
+            cartWhatsAppBtn.classList.remove('is-disabled');
+            cartWhatsAppBtn.setAttribute('aria-disabled', 'false');
+        } else {
+            cartWhatsAppBtn.href = `https://wa.me/${waNumber}`;
+            cartWhatsAppBtn.classList.add('is-disabled');
+            cartWhatsAppBtn.setAttribute('aria-disabled', 'true');
+        }
+    };
+
+    const openCart = () => {
+        if (!cartDrawer) {
+            return;
+        }
+        cartDrawer.classList.add('is-open');
+        cartDrawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeCart = () => {
+        if (!cartDrawer) {
+            return;
+        }
+        cartDrawer.classList.remove('is-open');
+        cartDrawer.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    let cart = loadCart();
+
+    const storedCheckout = loadCheckout();
+    if (checkoutName && storedCheckout.name) {
+        checkoutName.value = storedCheckout.name;
+    }
+    if (checkoutPhone && storedCheckout.phone) {
+        checkoutPhone.value = storedCheckout.phone;
+    }
+    if (checkoutAddress && storedCheckout.address) {
+        checkoutAddress.value = storedCheckout.address;
+    }
+    if (checkoutPayment && storedCheckout.payment) {
+        checkoutPayment.value = storedCheckout.payment;
+    }
+    if (checkoutDelivery && storedCheckout.delivery) {
+        checkoutDelivery.value = storedCheckout.delivery;
+    }
+    renderCart();
+
+    cartToggleButtons.forEach(button => {
+        button.addEventListener('click', openCart);
+    });
+
+    if (cartDrawer) {
+        cartDrawer.querySelectorAll('[data-cart-close]').forEach(button => {
+            button.addEventListener('click', closeCart);
+        });
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && cartDrawer && cartDrawer.classList.contains('is-open')) {
+            closeCart();
+        }
+    });
+
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const card = button.closest('.product-card');
+            if (!card) {
+                return;
+            }
+            const id = card.dataset.productId;
+            const name = card.dataset.productName;
+            const price = parsePrice(card.dataset.productPrice);
+
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ id, name, price, qty: 1 });
+            }
+
+            saveCart();
+            renderCart();
+            openCart();
+        });
+    });
+
+    if (cartItems) {
+        cartItems.addEventListener('click', (event) => {
+            const actionButton = event.target.closest('[data-action]');
+            if (!actionButton) {
+                return;
+            }
+            const cartItem = actionButton.closest('.cart-item');
+            if (!cartItem) {
+                return;
+            }
+            const id = cartItem.dataset.id;
+            const itemIndex = cart.findIndex(item => item.id === id);
+            if (itemIndex === -1) {
+                return;
+            }
+
+            const action = actionButton.dataset.action;
+            if (action === 'increase') {
+                cart[itemIndex].qty += 1;
+            }
+
+            if (action === 'decrease') {
+                cart[itemIndex].qty -= 1;
+                if (cart[itemIndex].qty <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+            }
+
+            if (action === 'remove') {
+                cart.splice(itemIndex, 1);
+            }
+
+            saveCart();
+            renderCart();
+        });
+    }
+
+    if (cartClearBtn) {
+        cartClearBtn.addEventListener('click', () => {
+            cart = [];
+            saveCart();
+            renderCart();
+        });
+    }
+
+    [checkoutName, checkoutPhone, checkoutAddress, checkoutPayment, checkoutDelivery].forEach(field => {
+        if (!field) {
+            return;
+        }
+        field.addEventListener('input', () => {
+            saveCheckout();
+            renderCart();
+        });
+        field.addEventListener('change', () => {
+            saveCheckout();
+            renderCart();
+        });
+    });
+
+    if (cartWhatsAppBtn) {
+        cartWhatsAppBtn.addEventListener('click', (event) => {
+            if (cart.length === 0 || !isCheckoutComplete()) {
+                event.preventDefault();
+                alert('Lengkapi data diri dan isi keranjang sebelum checkout.');
+            }
+        });
+    }
+
+    // ============================================
+    // 12. CUSTOMER CAROUSEL
+    // ============================================
+    const customerCarousel = document.querySelector('.customer-carousel');
+
+    if (customerCarousel) {
+        const track = customerCarousel.querySelector('.customer-track');
+        const slides = Array.from(customerCarousel.querySelectorAll('.customer-slide'));
+        const dots = Array.from(customerCarousel.querySelectorAll('[data-carousel-dot]'));
+
+        const setActiveSlide = (index) => {
+            slides.forEach((slide, slideIndex) => {
+                slide.classList.toggle('is-active', slideIndex === index);
+            });
+
+            dots.forEach((dot, dotIndex) => {
+                const isActive = dotIndex === index;
+                dot.classList.toggle('is-active', isActive);
+                dot.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+        };
+
+        const getClosestSlideIndex = () => {
+            if (!track) {
+                return 0;
+            }
+            const trackRect = track.getBoundingClientRect();
+            const trackCenter = trackRect.left + trackRect.width / 2;
+            let closestIndex = 0;
+            let closestDistance = Number.POSITIVE_INFINITY;
+
+            slides.forEach((slide, index) => {
+                const slideRect = slide.getBoundingClientRect();
+                const slideCenter = slideRect.left + slideRect.width / 2;
+                const distance = Math.abs(trackCenter - slideCenter);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestIndex = index;
+                }
+            });
+
+            return closestIndex;
+        };
+
+        let isTicking = false;
+        if (track) {
+            track.addEventListener('scroll', () => {
+                if (isTicking) {
+                    return;
+                }
+                isTicking = true;
+                window.requestAnimationFrame(() => {
+                    setActiveSlide(getClosestSlideIndex());
+                    isTicking = false;
+                });
+            });
+        }
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const slide = slides[index];
+                if (!slide) {
+                    return;
+                }
+                slide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                setActiveSlide(index);
+            });
+        });
+
+        window.addEventListener('resize', () => {
+            setActiveSlide(getClosestSlideIndex());
+        });
+
+        window.requestAnimationFrame(() => {
+            setActiveSlide(0);
+            const firstSlide = slides[0];
+            if (firstSlide) {
+                firstSlide.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            }
+        });
+    }
+
+    // ============================================
+    // 13. CONSOLE MESSAGE
     // ============================================
     console.log('%c🌸 Pretty Crafter Loaded 🌸', 'color:#d4839a; font-size:18px; font-weight:bold;');
 
