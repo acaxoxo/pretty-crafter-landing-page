@@ -2,6 +2,8 @@
   "type": "module",
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",
+    "dotenv": "^17.4.2",
+    "mysql2": "^3.22.3",
     "tailwindcss": "^4.2.2"
   }
 }
