@@ -1,0 +1,44 @@
+CREATE DATABASE IF NOT EXISTS db_penjualan;
+USE db_penjualan;
+
+CREATE TABLE IF NOT EXISTS customers (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  phone VARCHAR(30) NOT NULL,
+  email VARCHAR(120),
+  address TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uniq_customer_phone (phone)
+);
+
+CREATE TABLE IF NOT EXISTS products (
+  id VARCHAR(64) PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  price DECIMAL(12,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS orders (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  customer_id BIGINT UNSIGNED NOT NULL,
+  order_code VARCHAR(32) NOT NULL UNIQUE,
+  order_date DATETIME NOT NULL,
+  total_amount DECIMAL(12,2) NOT NULL DEFAULT 0,
+  payment_method VARCHAR(40),
+  delivery_method VARCHAR(40),
+  status VARCHAR(20) NOT NULL DEFAULT 'new',
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (customer_id) REFERENCES customers(id)
+);
+
+CREATE TABLE IF NOT EXISTS order_items (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  order_id BIGINT UNSIGNED NOT NULL,
+  product_id VARCHAR(64) NOT NULL,
+  product_name VARCHAR(120) NOT NULL,
+  price DECIMAL(12,2) NOT NULL,
+  qty INT NOT NULL,
+  subtotal DECIMAL(12,2) NOT NULL,
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);

@@ -230,6 +230,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartStorageKey = 'pretty_crafter_cart';
     const checkoutStorageKey = 'pretty_crafter_checkout';
     const waNumber = '6281237705049';
+    const apiBaseUrl = (() => {
+        const meta = document.querySelector('meta[name="api-base-url"]');
+        const value = meta?.getAttribute('content')?.trim();
+        return value || 'http://localhost:3001';
+    })();
 
     const parsePrice = (value) => {
         const numeric = Number(value);
@@ -263,6 +268,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveCheckout = () => {
         const details = getCheckoutDetails();
         localStorage.setItem(checkoutStorageKey, JSON.stringify(details));
+    };
+
+    const clearCheckout = () => {
+        if (checkoutName) checkoutName.value = '';
+        if (checkoutPhone) checkoutPhone.value = '';
+        if (checkoutAddress) checkoutAddress.value = '';
+        if (checkoutPayment) checkoutPayment.value = '';
+        if (checkoutDelivery) checkoutDelivery.value = '';
+        localStorage.removeItem(checkoutStorageKey);
     };
 
     const updateCartCount = () => {
@@ -313,6 +327,77 @@ document.addEventListener('DOMContentLoaded', () => {
         return encodeURIComponent(lines.join('\n'));
     };
 
+    const showNotification = (message, type = 'info') => {
+        let toast = document.getElementById('apiToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'apiToast';
+            toast.style.position = 'fixed';
+            toast.style.right = '20px';
+            toast.style.bottom = '20px';
+            toast.style.zIndex = '9999';
+            toast.style.padding = '12px 16px';
+            toast.style.borderRadius = '12px';
+            toast.style.fontSize = '14px';
+            toast.style.color = '#ffffff';
+            toast.style.boxShadow = '0 8px 20px rgba(0, 0, 0, 0.2)';
+            toast.style.maxWidth = '320px';
+            document.body.appendChild(toast);
+        }
+
+        if (type === 'success') {
+            toast.style.background = '#2f855a';
+        } else if (type === 'error') {
+            toast.style.background = '#c53030';
+        } else {
+            toast.style.background = '#4a5568';
+        }
+
+        toast.textContent = message;
+        toast.style.opacity = '1';
+
+        window.clearTimeout(toast._hideTimer);
+        toast._hideTimer = window.setTimeout(() => {
+            toast.style.opacity = '0';
+        }, 3000);
+    };
+
+    const buildOrderPayload = () => {
+        const customer = getCheckoutDetails();
+        const items = cart.map(item => ({
+            product_id: item.id,
+            qty: item.qty
+        }));
+
+        return {
+            customer: {
+                name: customer.name,
+                phone: customer.phone,
+                email: '',
+                address: customer.address
+            },
+            items,
+            payment_method: customer.payment,
+            delivery_method: customer.delivery,
+            notes: ''
+        };
+    };
+
+    const submitOrder = async () => {
+        const response = await fetch(`${apiBaseUrl}/api/orders`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(buildOrderPayload())
+        });
+
+        if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            throw new Error(data.error || 'Gagal menyimpan order.');
+        }
+
+        return response.json();
+    };
+
     const getCartTotal = () => cart.reduce((sum, item) => sum + item.price * item.qty, 0);
 
     const renderCart = () => {
@@ -352,7 +437,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCartCount();
 
         if (cartFormDetails) {
-            cartFormDetails.open = cart.length > 0;
+            cartFormDetails.open = false;
         }
 
         const message = buildWhatsAppMessage();
@@ -374,6 +459,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cartDrawer.classList.add('is-open');
         cartDrawer.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+        if (cartFormDetails) {
+            cartFormDetails.open = false;
+        }
     };
 
     const closeCart = () => {
@@ -440,7 +528,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             saveCart();
             renderCart();
-            openCart();
         });
     });
 
@@ -504,10 +591,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (cartWhatsAppBtn) {
-        cartWhatsAppBtn.addEventListener('click', (event) => {
+        cartWhatsAppBtn.addEventListener('click', async (event) => {
             if (cart.length === 0 || !isCheckoutComplete()) {
                 event.preventDefault();
                 alert('Lengkapi data diri dan isi keranjang sebelum checkout.');
+                return;
+            }
+
+            event.preventDefault();
+
+            try {
+                await submitOrder();
+                showNotification('Order berhasil disimpan. Lanjut ke WhatsApp.', 'success');
+                const message = buildWhatsAppMessage();
+                cart = [];
+                saveCart();
+                clearCheckout();
+                renderCart();
+                const targetUrl = message
+                    ? `https://wa.me/${waNumber}?text=${message}`
+                    : `https://wa.me/${waNumber}`;
+                window.open(targetUrl, '_blank', 'noopener');
+            } catch (error) {
+                showNotification(error.message || 'Gagal menyimpan order.', 'error');
             }
         });
     }
