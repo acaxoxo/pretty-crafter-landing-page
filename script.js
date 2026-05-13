@@ -436,10 +436,6 @@ document.addEventListener('DOMContentLoaded', () => {
         cartTotal.textContent = formatRupiah(getCartTotal());
         updateCartCount();
 
-        if (cartFormDetails) {
-            cartFormDetails.open = false;
-        }
-
         const message = buildWhatsAppMessage();
         if (message) {
             cartWhatsAppBtn.href = `https://wa.me/${waNumber}?text=${message}`;
