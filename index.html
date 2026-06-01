@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="api-base-url" content="https://pretty-crafter-landing-page.vercel.app/" />
+    <meta name="api-base-url" content="https://pretty-crafter-landing-page.vercel.app" />
     <title>Pretty Crafter - Gantungan Bunga Hiasan Cantik</title>
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/assets/file.svg" />
@@ -363,40 +363,6 @@
       </div>
     </section>
 
-    <!-- PROMO BANNER -->
-    <section
-      id="promoBanner"
-      class="py-6 bg-[#f3dce3] dark:bg-[#2a1a25] transition-colors duration-300"
-    >
-      <div class="container mx-auto px-4">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h3
-              id="promoHeadline"
-              class="text-xl md:text-2xl font-semibold text-[#5a4a52] dark:text-gray-100"
-            >
-              Promo spesial minggu ini
-            </h3>
-            <p
-              id="promoSubtext"
-              class="text-[#8b7a83] dark:text-gray-300 text-sm md:text-base mt-2"
-            >
-              Diskon cantik untuk pembelian bundle.
-            </p>
-          </div>
-          <a
-            id="promoCta"
-            href="https://wa.me/6281237705049"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-2 bg-[#d4839a] text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#c2707e] transition-all"
-          >
-            Tanya Promo
-          </a>
-        </div>
-      </div>
-    </section>
-
     <!-- PRODUK SECTION -->
     <section
       id="produk"
@@ -414,10 +380,220 @@
           Setiap desain dibuat dengan detail yang teliti dan material pilihan
           untuk memberikan keindahan yang bertahan lama.
         </p>
-        <div
-          id="productGrid"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-        ></div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Produk 1 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+            data-product-id="gantungan-cherry"
+            data-product-name="Gantungan Cherry"
+            data-product-price="5000"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] dark:from-gray-700 dark:to-gray-600 h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/cherry.jpeg"
+                alt="Gantungan Cherry"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Cherry
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Desain bunga cherry yang manis dengan sentuhan warna lembut,
+                menghadirkan kesan ceria dan penuh kehangatan dalam setiap
+                detail kecil.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 5.000</span
+                >
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                <button
+                  type="button"
+                  class="add-to-cart-btn w-full bg-white dark:bg-[#2a2a2a] text-[#5a4a52] dark:text-gray-200 border border-[#e8c4cf] dark:border-[#3a232b] py-2.5 rounded-lg font-medium hover:bg-[#f9f5f6] dark:hover:bg-[#3a232b] transition-all duration-300 text-sm"
+                >
+                  <i class="fas fa-plus mr-2"></i> Tambah ke Keranjang
+                </button>
+                <a
+                  href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Bunga%20Cherry%20Pretty%20Crafter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full bg-[#d4839a] dark:bg-[#c2707e] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] dark:hover:bg-[#d4839a] transition-all duration-300 text-sm text-center block"
+                >
+                  <i class="fab fa-whatsapp mr-2"></i> Pesan
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produk 2 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+            data-product-id="gantungan-daisy"
+            data-product-name="Gantungan Bunga Daisy"
+            data-product-price="5000"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] dark:from-gray-700 dark:to-gray-600 h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/bunga_daisy.jpeg"
+                alt="Gantungan Bunga Daisy"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Bunga Daisy
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Bunga daisy dengan tampilan sederhana namun elegan, memberikan
+                nuansa ringan, fresh, dan romantis yang tak berlebihan.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 5.000</span
+                >
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                <button
+                  type="button"
+                  class="add-to-cart-btn w-full bg-white dark:bg-[#2a2a2a] text-[#5a4a52] dark:text-gray-200 border border-[#e8c4cf] dark:border-[#3a232b] py-2.5 rounded-lg font-medium hover:bg-[#f9f5f6] dark:hover:bg-[#3a232b] transition-all duration-300 text-sm"
+                >
+                  <i class="fas fa-plus mr-2"></i> Tambah ke Keranjang
+                </button>
+                <a
+                  href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Bunga%20Daisy%20Pretty%20Crafter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full bg-[#d4839a] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] transition-all duration-300 text-sm text-center block"
+                >
+                  <i class="fab fa-whatsapp mr-2"></i> Pesan
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produk 3 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+            data-product-id="gantungan-pita"
+            data-product-name="Gantungan Pita"
+            data-product-price="4000"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/pita.jpeg"
+                alt="Gantungan pita"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Pita
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Kombinasi desain dalam satu paket dengan tampilan yang beragam,
+                menghadirkan pilihan aksen yang playful dan tetap harmonis.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 4.000</span
+                >
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                <button
+                  type="button"
+                  class="add-to-cart-btn w-full bg-white dark:bg-[#2a2a2a] text-[#5a4a52] dark:text-gray-200 border border-[#e8c4cf] dark:border-[#3a232b] py-2.5 rounded-lg font-medium hover:bg-[#f9f5f6] dark:hover:bg-[#3a232b] transition-all duration-300 text-sm"
+                >
+                  <i class="fas fa-plus mr-2"></i> Tambah ke Keranjang
+                </button>
+                <a
+                  href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Pita%20Pretty%20Crafter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full bg-[#d4839a] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] transition-all duration-300 text-sm text-center block"
+                >
+                  <i class="fab fa-whatsapp mr-2"></i> Pesan
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Produk 4 -->
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+            data-product-id="gantungan-lily"
+            data-product-name="Gantungan Bunga Lily"
+            data-product-price="6000"
+          >
+            <div
+              class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] h-64 flex items-center justify-center"
+            >
+              <img
+                src="assets/daisy_ungu.jpeg"
+                alt="Gantungan Bunga Lily"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3
+                class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200"
+              >
+                Gantungan Bunga Lily
+              </h3>
+              <p
+                class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light"
+              >
+                Bunga lily dengan kelopak berlapis yang anggun, menciptakan
+                kesan elegan dan berkelas dalam sentuhan yang lembut.
+              </p>
+              <div class="flex justify-between items-center pt-2">
+                <span
+                  class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]"
+                  >Rp 6.000</span
+                >
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                <button
+                  type="button"
+                  class="add-to-cart-btn w-full bg-white dark:bg-[#2a2a2a] text-[#5a4a52] dark:text-gray-200 border border-[#e8c4cf] dark:border-[#3a232b] py-2.5 rounded-lg font-medium hover:bg-[#f9f5f6] dark:hover:bg-[#3a232b] transition-all duration-300 text-sm"
+                >
+                  <i class="fas fa-plus mr-2"></i> Tambah ke Keranjang
+                </button>
+                <a
+                  href="https://wa.me/6281237705049?text=Saya%20tertarik%20dengan%20Gantungan%20Bunga%20Lily%20Pretty%20Crafter"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full bg-[#d4839a] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] transition-all duration-300 text-sm text-center block"
+                >
+                  <i class="fab fa-whatsapp mr-2"></i> Pesan
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -468,10 +644,83 @@
             <button type="button" class="customer-dot" data-carousel-dot="3" aria-label="Slide 4"></button>
           </div>
         </div>
-        <div
-          id="testimonialGrid"
-          class="grid grid-cols-1 md:grid-cols-3 gap-8"
-        ></div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Testimoni 1 -->
+          <div
+            class="testimonial-card bg-linear-to-br from-[#f9f5f6] to-white dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl shadow-sm border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div class="flex items-center mb-5">
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#d4839a] to-[#b8697f] rounded-full flex items-center justify-center text-white text-lg font-semibold"
+              >
+                FB
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-[#5a4a52] dark:text-gray-200">
+                  Flourensia Bullu
+                </h4>
+                <p class="text-xs text-[#8b7a83] dark:text-gray-400">Kupang</p>
+              </div>
+            </div>
+            <p
+              class="text-[#5a4a52] dark:text-gray-300 leading-relaxed text-sm font-light"
+            >
+              "Awalnya coba-coba aja, ternyata hasilnya beneran rapi dan
+              detailnya halus banget. Kecil tapi lucu, jadi suka diliat terus."
+            </p>
+          </div>
+
+          <!-- Testimoni 2 -->
+          <div
+            class="testimonial-card bg-linear-to-br from-[#f9f5f6] to-white dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl shadow-sm border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div class="flex items-center mb-5">
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#d4839a] to-[#b8697f] rounded-full flex items-center justify-center text-white text-lg font-semibold"
+              >
+                CN
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-[#5a4a52] dark:text-gray-200">
+                  Claudya Ndolu
+                </h4>
+                <p class="text-xs text-[#8b7a83] dark:text-gray-400">Kupang</p>
+              </div>
+            </div>
+            <p
+              class="text-[#5a4a52] dark:text-gray-300 leading-relaxed text-sm font-light"
+            >
+              "Warnanya lembut dan sesuai foto, nggak nyangka bakal sebagus ini.
+              Kelihatan simpel tapi tetap ada kesan elegannya."
+            </p>
+          </div>
+
+          <!-- Testimoni 3 -->
+          <div
+            class="testimonial-card bg-linear-to-br from-[#f9f5f6] to-white dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl shadow-sm border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300"
+          >
+            <div class="flex items-center mb-5">
+              <div
+                class="w-16 h-16 bg-linear-to-br from-[#d4839a] to-[#b8697f] rounded-full flex items-center justify-center text-white text-lg font-semibold"
+              >
+                EL
+              </div>
+              <div class="ml-4">
+                <h4 class="font-semibold text-[#5a4a52] dark:text-gray-200">
+                  Esmeralda De Lemos
+                </h4>
+                <p class="text-xs text-[#8b7a83] dark:text-gray-400">Kupang</p>
+              </div>
+            </div>
+            <p
+              class="text-[#5a4a52] dark:text-gray-300 leading-relaxed text-sm font-light"
+            >
+              "Packaging-nya juga cantik, jadi makin berasa spesial. Produknya
+              sendiri ringan dan detailnya keliatan banget dibuat dengan
+              teliti."
+            </p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -653,68 +902,6 @@
           >
             <i class="fab fa-whatsapp"></i> Mulai Pesan Sekarang
           </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- KONTAK SECTION -->
-    <section
-      id="kontak"
-      class="py-12 bg-white dark:bg-[#0f0f0f] transition-colors duration-300"
-    >
-      <div class="container mx-auto px-4">
-        <div class="max-w-3xl mx-auto text-center mb-10">
-          <h2
-            class="text-4xl md:text-5xl font-semibold text-[#5a4a52] dark:text-gray-100"
-          >
-            Hubungi <span class="text-[#d4839a]">Kami</span>
-          </h2>
-          <p class="text-[#8b7a83] dark:text-gray-400 text-lg mt-4 font-light">
-            Ada pertanyaan atau mau pesan khusus? Kirim pesan lewat form ini.
-          </p>
-        </div>
-        <div class="max-w-2xl mx-auto bg-[#f9f5f6] dark:bg-[#1a1a1a] border border-[#e8c4cf] dark:border-[#3a232b] rounded-2xl p-8 shadow-sm">
-          <form id="leadForm" class="space-y-5">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label class="flex flex-col gap-2 text-sm text-[#5a4a52] dark:text-gray-200">
-                Nama
-                <input
-                  id="leadName"
-                  type="text"
-                  required
-                  class="w-full border border-[#e8c4cf] dark:border-[#3a232b] rounded-lg px-4 py-2 bg-white dark:bg-[#0f0f0f]"
-                  placeholder="Nama lengkap"
-                />
-              </label>
-              <label class="flex flex-col gap-2 text-sm text-[#5a4a52] dark:text-gray-200">
-                No HP
-                <input
-                  id="leadPhone"
-                  type="tel"
-                  required
-                  class="w-full border border-[#e8c4cf] dark:border-[#3a232b] rounded-lg px-4 py-2 bg-white dark:bg-[#0f0f0f]"
-                  placeholder="Contoh: 0812xxxx"
-                />
-              </label>
-            </div>
-            <label class="flex flex-col gap-2 text-sm text-[#5a4a52] dark:text-gray-200">
-              Pesan
-              <textarea
-                id="leadMessage"
-                rows="4"
-                required
-                class="w-full border border-[#e8c4cf] dark:border-[#3a232b] rounded-lg px-4 py-2 bg-white dark:bg-[#0f0f0f]"
-                placeholder="Tuliskan kebutuhan atau pertanyaan Anda"
-              ></textarea>
-            </label>
-            <button
-              type="submit"
-              class="w-full bg-[#d4839a] text-white py-3 rounded-lg font-medium hover:bg-[#c2707e] transition-all"
-            >
-              Kirim Pesan
-            </button>
-            <p id="leadFormStatus" class="text-sm text-[#8b7a83] dark:text-gray-400 text-center"></p>
-          </form>
         </div>
       </div>
     </section>
