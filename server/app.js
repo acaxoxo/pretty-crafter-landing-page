@@ -705,10 +705,6 @@ app.get('/api/admin/summary', requireAdminAuth, async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3001, () => {
-  console.log(`API running on port ${process.env.PORT || 3001}`);
-});
-
 app.use((err, req, res, next) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ error: 'Terjadi kesalahan pada server.' });
