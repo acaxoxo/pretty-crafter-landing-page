@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="api-base-url" content="http://localhost:3001" />
+    <title>Admin Dashboard - Pretty Crafter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --pink-primary: #d4839a;
+        --pink-light: #e8c4cf;
+        --pink-lighter: #f3dce3;
+        --pink-dark: #b8697f;
+        --text-primary: #5a4a52;
+        --text-secondary: #8b7a83;
+        --bg: #faf5f7;
+        --card: #ffffff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: var(--bg);
+        color: var(--text-primary);
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .page {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr;
+      }
+
+      .app-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 28px;
+        background: var(--card);
+        border-bottom: 1px solid var(--pink-light);
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 600;
+      }
+
+      .brand-badge {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        background: var(--pink-lighter);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--pink-dark);
+        font-weight: 700;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .ghost-btn,
+      .primary-btn {
+        border-radius: 10px;
+        padding: 10px 16px;
+        border: none;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .ghost-btn {
+        background: var(--pink-lighter);
+        color: var(--text-primary);
+      }
+
+      .primary-btn {
+        background: var(--pink-primary);
+        color: #fff;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        min-height: calc(100vh - 80px);
+      }
+
+      .sidebar {
+        background: var(--card);
+        border-right: 1px solid var(--pink-light);
+        padding: 24px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .nav-btn {
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        text-align: left;
+        background: transparent;
+        font-size: 13px;
+        cursor: pointer;
+        color: var(--text-secondary);
+      }
+
+      .nav-btn.active {
+        background: var(--pink-lighter);
+        color: var(--text-primary);
+        border-color: var(--pink-light);
+        font-weight: 600;
+      }
+
+      .content {
+        padding: 28px;
+      }
+
+      .card {
+        background: var(--card);
+        border-radius: 16px;
+        padding: 20px;
+        box-shadow: 0 10px 24px rgba(90, 74, 82, 0.08);
+        margin-bottom: 20px;
+      }
+
+      .card h2 {
+        margin: 0 0 16px;
+        font-size: 18px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .login-wrap {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--pink-lighter);
+        padding: 24px;
+      }
+
+      .login-card {
+        background: var(--card);
+        border-radius: 18px;
+        padding: 36px;
+        width: 100%;
+        max-width: 380px;
+        box-shadow: 0 20px 40px rgba(212, 131, 154, 0.2);
+      }
+
+      .login-card h1 {
+        margin: 0 0 6px;
+        font-size: 22px;
+      }
+
+      .login-card p {
+        margin: 0 0 24px;
+        font-size: 13px;
+        color: var(--text-secondary);
+      }
+
+      .form-group {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 16px;
+      }
+
+      label {
+        font-size: 12px;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      input,
+      textarea,
+      select {
+        border: 1.5px solid var(--pink-light);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        font-family: "Poppins", sans-serif;
+        color: var(--text-primary);
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: var(--pink-primary);
+        box-shadow: 0 0 0 3px rgba(212, 131, 154, 0.16);
+      }
+
+      .error-text {
+        color: #c53030;
+        font-size: 12px;
+        margin-top: 8px;
+      }
+
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
+      }
+
+      .table th {
+        text-align: left;
+        background: var(--pink-lighter);
+        padding: 10px 12px;
+      }
+
+      .table td {
+        padding: 10px 12px;
+        border-top: 1px solid var(--pink-lighter);
+      }
+
+      .badge {
+        display: inline-flex;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 600;
+      }
+
+      .badge.new { background: #bee3f8; color: #2b6cb0; }
+      .badge.contacted { background: #fefcbf; color: #744210; }
+      .badge.converted { background: #c6f6d5; color: #276749; }
+      .badge.closed { background: #fed7d7; color: #9b2c2c; }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+      }
+
+      .stat-card {
+        background: var(--card);
+        border-radius: 14px;
+        padding: 16px;
+        border: 1px solid var(--pink-lighter);
+      }
+
+      .stat-card .label {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      .stat-card .value {
+        font-size: 22px;
+        font-weight: 700;
+        margin-top: 6px;
+        color: var(--pink-primary);
+      }
+
+      .grid-2 {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      .inline-actions {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .checkbox-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+      }
+
+      .note {
+        font-size: 12px;
+        color: var(--text-secondary);
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          flex-direction: row;
+          overflow-x: auto;
+          border-right: none;
+          border-bottom: 1px solid var(--pink-light);
+        }
+
+        .nav-btn {
+          white-space: nowrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loginView" class="login-wrap">
+      <div class="login-card">
+        <h1>Pretty Crafter Admin</h1>
+        <p>Masuk untuk mengelola konten, leads, dan order.</p>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="loginUsername">Username</label>
+            <input id="loginUsername" type="text" placeholder="admin" required />
+          </div>
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" placeholder="Password" required />
+          </div>
+          <button class="primary-btn" type="submit" style="width:100%">Masuk</button>
+          <div id="loginError" class="error-text hidden">Username atau password salah.</div>
+        </form>
+      </div>
+    </div>
+
+    <div id="dashboardView" class="page hidden">
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-badge">PC</div>
+          <div>
+            <div>Pretty Crafter</div>
+            <div class="note">Admin Dashboard</div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="refreshBtn" class="ghost-btn" type="button">Refresh Data</button>
+          <button id="logoutBtn" class="primary-btn" type="button">Logout</button>
+        </div>
+      </header>
+
+      <div class="layout">
+        <aside class="sidebar">
+          <button class="nav-btn active" data-section="content">Konten</button>
+          <button class="nav-btn" data-section="leads">Leads</button>
+          <button class="nav-btn" data-section="orders">Orders</button>
+          <button class="nav-btn" data-section="analytics">Analitik</button>
+          <button class="nav-btn" data-section="seo">SEO</button>
+          <button class="nav-btn" data-section="checklist">Checklist</button>
+        </aside>
+
+        <main class="content">
+          <section id="section-content" class="card">
+            <h2>Manajemen Produk</h2>
+            <div class="note">Kelola produk yang tampil di landing page.</div>
+            <div style="margin-top:16px">
+              <table class="table" id="productsTable">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Harga</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="card" style="margin-top:20px">
+              <h2 style="font-size:16px">Form Produk</h2>
+              <form id="productForm" class="grid-2">
+                <div class="form-group">
+                  <label for="productId">ID Produk</label>
+                  <input id="productId" type="text" placeholder="gantungan-baru" required />
+                </div>
+                <div class="form-group">
+                  <label for="productName">Nama Produk</label>
+                  <input id="productName" type="text" required />
+                </div>
+                <div class="form-group">
+                  <label for="productPrice">Harga</label>
+                  <input id="productPrice" type="number" min="0" required />
+                </div>
+                <div class="form-group">
+                  <label for="productImage">Image URL</label>
+                  <input id="productImage" type="text" />
+                </div>
+                <div class="form-group" style="grid-column:1/-1">
+                  <label for="productDescription">Deskripsi</label>
+                  <textarea id="productDescription" rows="3"></textarea>
+                </div>
+                <div class="checkbox-row" style="grid-column:1/-1">
+                  <input id="productActive" type="checkbox" checked />
+                  <label for="productActive">Produk aktif</label>
+                </div>
+                <div class="inline-actions" style="grid-column:1/-1">
+                  <button class="primary-btn" type="submit">Simpan Produk</button>
+                  <button id="productReset" class="ghost-btn" type="button">Reset</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <section id="section-leads" class="card hidden">
+            <h2>Manajemen Leads</h2>
+            <div class="inline-actions" style="margin-bottom:12px">
+              <select id="leadStatusFilter">
+                <option value="">Semua Status</option>
+                <option value="new">New</option>
+                <option value="contacted">Contacted</option>
+                <option value="converted">Converted</option>
+                <option value="closed">Closed</option>
+              </select>
+              <input id="leadSearch" type="text" placeholder="Cari nama / nomor" />
+              <button id="leadSearchBtn" class="ghost-btn" type="button">Cari</button>
+            </div>
+            <div id="leadsContainer"></div>
+          </section>
+
+          <section id="section-orders" class="card hidden">
+            <h2>Manajemen Orders</h2>
+            <div class="inline-actions" style="margin-bottom:12px">
+              <select id="orderStatusFilter">
+                <option value="">Semua Status</option>
+                <option value="new">New</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="shipped">Shipped</option>
+                <option value="done">Done</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+              <button id="exportOrders" class="primary-btn" type="button">Export CSV</button>
+            </div>
+            <table class="table" id="ordersTable">
+              <thead>
+                <tr>
+                  <th>Kode</th>
+                  <th>Pelanggan</th>
+                  <th>Total</th>
+                  <th>Pembayaran</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </section>
+
+          <section id="section-analytics" class="card hidden">
+            <h2>Laporan & Analitik</h2>
+            <div class="stats-grid" id="statsGrid"></div>
+            <div class="card" style="margin-top:16px">
+              <h2 style="font-size:16px">Link Analitik Eksternal</h2>
+              <a id="gaLink" class="ghost-btn" href="https://analytics.google.com" target="_blank" rel="noopener">Buka Google Analytics</a>
+            </div>
+          </section>
+
+          <section id="section-seo" class="card hidden">
+            <h2>SEO & Meta</h2>
+            <form id="seoForm" class="grid-2">
+              <div class="form-group" style="grid-column:1/-1">
+                <label for="seoTitle">Page Title</label>
+                <input id="seoTitle" type="text" />
+              </div>
+              <div class="form-group" style="grid-column:1/-1">
+                <label for="seoDescription">Meta Description</label>
+                <textarea id="seoDescription" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="seoKeywords">Keywords</label>
+                <input id="seoKeywords" type="text" />
+              </div>
+              <div class="form-group">
+                <label for="seoOgImage">OG Image URL</label>
+                <input id="seoOgImage" type="text" />
+              </div>
+              <div class="inline-actions" style="grid-column:1/-1">
+                <button class="primary-btn" type="submit">Simpan Meta</button>
+              </div>
+            </form>
+          </section>
+
+          <section id="section-checklist" class="card hidden">
+            <h2>Site Quality Checklist</h2>
+            <div class="note" id="checklistTimestamp">Belum ada pemeriksaan.</div>
+            <div style="margin-top:12px">
+              <div class="checkbox-row">
+                <input type="checkbox" class="check-item" data-key="form" />
+                <span>Form berfungsi</span>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" class="check-item" data-key="links" />
+                <span>Tidak ada broken link</span>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" class="check-item" data-key="mobile" />
+                <span>Tampilan mobile</span>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" class="check-item" data-key="images" />
+                <span>Gambar termuat</span>
+              </div>
+              <div class="checkbox-row">
+                <input type="checkbox" class="check-item" data-key="whatsapp" />
+                <span>WhatsApp link aktif</span>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <script type="module" src="/admin.js"></script>
+  </body>
+</html>

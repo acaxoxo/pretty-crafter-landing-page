@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ============================================
-    // 0. DARK MODE TOGGLE
-    // ============================================
     const darkModeBtn = document.getElementById('darkModeBtn');
     const htmlElement = document.documentElement;
 
@@ -33,9 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
-    // 1. MOBILE MENU
-    // ============================================
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.querySelector('.mobile-menu');
 
@@ -51,9 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
-    // 2. NAVBAR SCROLL & ACTIVE LINK
-    // ============================================
     const navbar = document.querySelector('.navbar');
     const navLinks = document.querySelectorAll('.nav-link:not(.cta-button)');
     const sections = document.querySelectorAll('section');
@@ -83,9 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ============================================
-    // 3. SCROLL TO TOP
-    // ============================================
     const scrollToTopBtn = document.getElementById('scrollToTopBtn');
 
     if (scrollToTopBtn) {
@@ -98,9 +86,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
-    // 4. SMOOTH SCROLL
-    // ============================================
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const target = document.querySelector(this.getAttribute('href'));
@@ -115,22 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // ============================================
-    // 5. PRODUCT HOVER
-    // ============================================
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'translateY(-10px)';
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'translateY(0)';
-        });
-    });
-
-    // ============================================
-    // 6. INTERSECTION ANIMATION
-    // ============================================
     const animatedCards = document.querySelectorAll('.keunggulan-card');
 
     if (animatedCards.length && 'IntersectionObserver' in window) {
@@ -146,9 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
         animatedCards.forEach(card => observer.observe(card));
     }
 
-    // ============================================
-    // 7. KEYFRAMES
-    // ============================================
     const style = document.createElement('style');
     style.textContent = `
         @keyframes fadeInUp {
@@ -158,40 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
     document.head.appendChild(style);
 
-    // ============================================
-    // 8. TESTIMONIAL ROTATION
-    // ============================================
-    const testimonialCards = document.querySelectorAll('.testimonial-card');
-
-    if (testimonialCards.length > 0 && window.innerWidth > 768) {
-        let index = 0;
-
-        testimonialCards.forEach(card => {
-            card.style.opacity = '0.5';
-            card.style.transition = 'opacity 0.5s ease';
-        });
-
-        testimonialCards[0].style.opacity = '1';
-
-        setInterval(() => {
-            testimonialCards.forEach(card => card.style.opacity = '0.5');
-            testimonialCards[index].style.opacity = '1';
-            index = (index + 1) % testimonialCards.length;
-        }, 5000);
-    }
-
-    // ============================================
-    // 9. TRACK WHATSAPP CLICK
-    // ============================================
     document.querySelectorAll('a[href*="wa.me"]').forEach(link => {
         link.addEventListener('click', () => {
             console.log('WhatsApp clicked');
         });
     });
 
-    // ============================================
-    // 10. IMAGE LAZY EFFECT
-    // ============================================
     if ('IntersectionObserver' in window) {
         const imgs = document.querySelectorAll('img');
 
@@ -210,9 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ============================================
-    // 11. CART
-    // ============================================
     const cartToggleButtons = document.querySelectorAll('[data-cart-toggle]');
     const cartDrawer = document.getElementById('cartDrawer');
     const cartItems = document.getElementById('cartItems');
@@ -236,12 +171,190 @@ document.addEventListener('DOMContentLoaded', () => {
         return value || 'http://localhost:3001';
     })();
 
+    const productGrid = document.getElementById('productGrid');
+    const testimonialGrid = document.getElementById('testimonialGrid');
+    const promoBanner = document.getElementById('promoBanner');
+    const promoHeadline = document.getElementById('promoHeadline');
+    const promoSubtext = document.getElementById('promoSubtext');
+    const promoCta = document.getElementById('promoCta');
+
     const parsePrice = (value) => {
         const numeric = Number(value);
         return Number.isFinite(numeric) ? numeric : 0;
     };
 
     const formatRupiah = (value) => `Rp ${Number(value).toLocaleString('id-ID')}`;
+
+    const fetchJson = async (path) => {
+        const response = await fetch(`${apiBaseUrl}${path}`);
+        if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            throw new Error(data.error || 'Gagal memuat data.');
+        }
+        return response.json();
+    };
+
+    const getInitials = (name) => {
+        if (!name) return '';
+        return name
+            .split(' ')
+            .filter(Boolean)
+            .slice(0, 2)
+            .map(word => word[0])
+            .join('')
+            .toUpperCase();
+    };
+
+    const bindProductHover = () => {
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px)';
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    };
+
+    const initTestimonialRotation = () => {
+        const testimonialCards = document.querySelectorAll('.testimonial-card');
+        if (testimonialCards.length === 0 || window.innerWidth <= 768) {
+            return;
+        }
+
+        let index = 0;
+        testimonialCards.forEach(card => {
+            card.style.opacity = '0.5';
+            card.style.transition = 'opacity 0.5s ease';
+        });
+        testimonialCards[0].style.opacity = '1';
+
+        setInterval(() => {
+            testimonialCards.forEach(card => card.style.opacity = '0.5');
+            testimonialCards[index].style.opacity = '1';
+            index = (index + 1) % testimonialCards.length;
+        }, 5000);
+    };
+
+    const renderProducts = (products) => {
+        if (!productGrid) return;
+        if (!Array.isArray(products) || products.length === 0) {
+            productGrid.innerHTML = '<p class="text-center text-[#8b7a83]">Belum ada produk.</p>';
+            return;
+        }
+
+        productGrid.innerHTML = products
+            .map((product) => {
+                const imageUrl = product.image_url || 'assets/file.svg';
+                const description = product.description || 'Produk handmade dengan kualitas terbaik.';
+                const waText = encodeURIComponent(`Saya tertarik dengan ${product.name} Pretty Crafter`);
+                return `
+          <div
+            class="product-card bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-colors duration-300"
+            data-product-id="${product.id}"
+            data-product-name="${product.name}"
+            data-product-price="${Number(product.price || 0)}"
+          >
+            <div class="product-image bg-linear-to-br from-[#e8c4cf] to-[#f3dce3] dark:from-gray-700 dark:to-gray-600 h-64 flex items-center justify-center">
+              <img src="${imageUrl}" alt="${product.name}" class="w-full h-full object-cover" />
+            </div>
+            <div class="product-info p-6 space-y-4">
+              <h3 class="text-xl font-semibold text-[#5a4a52] dark:text-gray-200">${product.name}</h3>
+              <p class="text-[#8b7a83] dark:text-gray-400 text-sm leading-relaxed font-light">${description}</p>
+              <div class="flex justify-between items-center pt-2">
+                <span class="text-xl font-semibold text-[#d4839a] dark:text-[#f0a8ba]">${formatRupiah(product.price || 0)}</span>
+              </div>
+              <div class="grid grid-cols-1 gap-2">
+                <button
+                  type="button"
+                  class="add-to-cart-btn w-full bg-white dark:bg-[#2a2a2a] text-[#5a4a52] dark:text-gray-200 border border-[#e8c4cf] dark:border-[#3a232b] py-2.5 rounded-lg font-medium hover:bg-[#f9f5f6] dark:hover:bg-[#3a232b] transition-all duration-300 text-sm"
+                >
+                  <i class="fas fa-plus mr-2"></i> Tambah ke Keranjang
+                </button>
+                <a
+                  href="https://wa.me/6281237705049?text=${waText}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="w-full bg-[#d4839a] text-white py-2.5 rounded-lg font-medium hover:bg-[#c2707e] transition-all duration-300 text-sm text-center block"
+                >
+                  <i class="fab fa-whatsapp mr-2"></i> Pesan
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+            })
+            .join('');
+
+        bindProductHover();
+    };
+
+    const renderTestimonials = (testimonials) => {
+        if (!testimonialGrid) return;
+        if (!Array.isArray(testimonials) || testimonials.length === 0) {
+            testimonialGrid.innerHTML = '<p class="text-center text-[#8b7a83]">Belum ada testimoni.</p>';
+            return;
+        }
+
+        testimonialGrid.innerHTML = testimonials
+            .map((testimonial) => {
+                const initials = getInitials(testimonial.name);
+                const photo = testimonial.photo_url;
+                const avatar = photo
+                    ? `<img src="${photo}" alt="${testimonial.name}" class="w-16 h-16 rounded-full object-cover" />`
+                    : `<div class="w-16 h-16 bg-linear-to-br from-[#d4839a] to-[#b8697f] rounded-full flex items-center justify-center text-white text-lg font-semibold">${initials}</div>`;
+                return `
+          <div class="testimonial-card bg-linear-to-br from-[#f9f5f6] to-white dark:from-gray-800 dark:to-gray-700 p-6 rounded-2xl shadow-sm border border-[#e8c4cf] dark:border-gray-700 transition-colors duration-300">
+            <div class="flex items-center mb-5">
+              ${avatar}
+              <div class="ml-4">
+                <h4 class="font-semibold text-[#5a4a52] dark:text-gray-200">${testimonial.name}</h4>
+                <p class="text-xs text-[#8b7a83] dark:text-gray-400">${testimonial.location || ''}</p>
+              </div>
+            </div>
+            <p class="text-[#5a4a52] dark:text-gray-300 leading-relaxed text-sm font-light">"${testimonial.quote}"</p>
+          </div>
+        `;
+            })
+            .join('');
+
+        initTestimonialRotation();
+    };
+
+    const applyPromoBanner = (promo) => {
+        if (!promoBanner) return;
+        if (!promo || promo.is_active === false) {
+            promoBanner.classList.add('hidden');
+            return;
+        }
+        promoBanner.classList.remove('hidden');
+        if (promoHeadline) promoHeadline.textContent = promo.headline || 'Promo spesial minggu ini';
+        if (promoSubtext) promoSubtext.textContent = promo.subtext || '';
+        if (promoCta) {
+            promoCta.textContent = promo.cta_label || 'Tanya Promo';
+            promoCta.href = promo.cta_url || 'https://wa.me/6281237705049';
+        }
+    };
+
+    const loadPublicContent = async () => {
+        try {
+            const [products, content] = await Promise.all([
+                fetchJson('/api/public/products'),
+                fetchJson('/api/public/content')
+            ]);
+            renderProducts(products);
+            applyPromoBanner(content?.promo);
+            renderTestimonials(content?.testimonials || []);
+        } catch (error) {
+            if (productGrid) {
+                productGrid.innerHTML = '<p class="text-center text-[#8b7a83]">Gagal memuat produk.</p>';
+            }
+            if (testimonialGrid) {
+                testimonialGrid.innerHTML = '<p class="text-center text-[#8b7a83]">Gagal memuat testimoni.</p>';
+            }
+        }
+    };
 
     const loadCart = () => {
         try {
@@ -505,26 +618,28 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const card = button.closest('.product-card');
-            if (!card) {
-                return;
-            }
-            const id = card.dataset.productId;
-            const name = card.dataset.productName;
-            const price = parsePrice(card.dataset.productPrice);
+    document.addEventListener('click', (event) => {
+        const button = event.target.closest('.add-to-cart-btn');
+        if (!button) {
+            return;
+        }
+        const card = button.closest('.product-card');
+        if (!card) {
+            return;
+        }
+        const id = card.dataset.productId;
+        const name = card.dataset.productName;
+        const price = parsePrice(card.dataset.productPrice);
 
-            const existing = cart.find(item => item.id === id);
-            if (existing) {
-                existing.qty += 1;
-            } else {
-                cart.push({ id, name, price, qty: 1 });
-            }
+        const existing = cart.find(item => item.id === id);
+        if (existing) {
+            existing.qty += 1;
+        } else {
+            cart.push({ id, name, price, qty: 1 });
+        }
 
-            saveCart();
-            renderCart();
-        });
+        saveCart();
+        renderCart();
     });
 
     if (cartItems) {
@@ -615,7 +730,63 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // 12. CUSTOMER CAROUSEL
+    // 10. CONTACT FORM LEADS
+    // ============================================
+    const leadForm = document.getElementById('leadForm');
+    const leadName = document.getElementById('leadName');
+    const leadPhone = document.getElementById('leadPhone');
+    const leadMessage = document.getElementById('leadMessage');
+    const leadFormStatus = document.getElementById('leadFormStatus');
+
+    const setLeadStatus = (message, type = 'info') => {
+        if (!leadFormStatus) return;
+        leadFormStatus.textContent = message;
+        if (type === 'success') {
+            leadFormStatus.style.color = '#2f855a';
+        } else if (type === 'error') {
+            leadFormStatus.style.color = '#c53030';
+        } else {
+            leadFormStatus.style.color = '#8b7a83';
+        }
+    };
+
+    if (leadForm) {
+        leadForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const payload = {
+                name: (leadName?.value || '').trim(),
+                phone: (leadPhone?.value || '').trim(),
+                message: (leadMessage?.value || '').trim()
+            };
+
+            if (!payload.name || !payload.phone || !payload.message) {
+                setLeadStatus('Lengkapi semua field sebelum mengirim.', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${apiBaseUrl}/api/leads`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const data = await response.json().catch(() => ({}));
+                    throw new Error(data.error || 'Gagal mengirim pesan.');
+                }
+
+                leadForm.reset();
+                setLeadStatus('Pesan terkirim. Kami akan segera menghubungi Anda.', 'success');
+            } catch (error) {
+                setLeadStatus(error.message || 'Gagal mengirim pesan.', 'error');
+            }
+        });
+    }
+
+    // ============================================
+    // 11. CUSTOMER CAROUSEL
     // ============================================
     const customerCarousel = document.querySelector('.customer-carousel');
 
@@ -698,8 +869,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================================
-    // 13. CONSOLE MESSAGE
+    // 12. CONSOLE MESSAGE
     // ============================================
     console.log('%c🌸 Pretty Crafter Loaded 🌸', 'color:#d4839a; font-size:18px; font-weight:bold;');
+
+    loadPublicContent();
 
 });
