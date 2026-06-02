@@ -288,7 +288,11 @@ const initAuth = async () => {
   try {
     await fetchWithAuth('/api/admin/session');
     setAuthState(true);
-    await refreshAll();
+    try {
+      await refreshAll();
+    } catch (refreshErr) {
+      notify('Gagal memuat data dari database. Periksa konfigurasi database Anda.', 'error');
+    }
   } catch (error) {
     clearToken();
     setAuthState(false);
@@ -314,14 +318,22 @@ loginForm?.addEventListener('submit', async (event) => {
       body: JSON.stringify({ username, password })
     });
     if (!response.ok) {
-      throw new Error('Login gagal.');
+      const errData = await response.json().catch(() => ({}));
+      throw new Error(errData.error || 'Login gagal.');
     }
     const data = await response.json();
     setToken(data.token);
     setAuthState(true);
-    await refreshAll();
+    try {
+      await refreshAll();
+    } catch (refreshErr) {
+      notify('Login berhasil, tetapi gagal memuat data dari database. Periksa konfigurasi database Anda.', 'error');
+    }
   } catch (error) {
-    if (loginError) loginError.classList.remove('hidden');
+    if (loginError) {
+      loginError.textContent = error.message === 'Login gagal.' ? 'Username atau password salah.' : error.message;
+      loginError.classList.remove('hidden');
+    }
   }
 });
 
