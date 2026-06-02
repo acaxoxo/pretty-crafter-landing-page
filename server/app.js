@@ -8,20 +8,36 @@ const app = express();
 
 const allowedOrigins = (process.env.CORS_ORIGINS || '')
   .split(',')
-  .map((origin) => origin.trim())
+  .map((origin) => origin.trim().replace(/\/$/, '').toLowerCase())
   .filter(Boolean);
 
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.length === 0) {
+      if (!origin) {
         return callback(null, true);
       }
-      if (allowedOrigins.includes(origin)) {
+
+      const normalizedOrigin = origin.trim().replace(/\/$/, '').toLowerCase();
+
+      if (allowedOrigins.length === 0 || allowedOrigins.includes('*')) {
         return callback(null, true);
       }
-      return callback(new Error('Not allowed by CORS'));
-    }
+
+      if (
+        allowedOrigins.includes(normalizedOrigin) ||
+        normalizedOrigin.startsWith('http://localhost:') ||
+        normalizedOrigin.startsWith('http://127.0.0.1:') ||
+        normalizedOrigin === 'http://localhost' ||
+        normalizedOrigin === 'http://127.0.0.1'
+      ) {
+        return callback(null, true);
+      }
+
+      console.warn(`[CORS Blocked] Origin: ${origin}. Allowed origins: ${allowedOrigins.join(', ')}`);
+      return callback(null, false);
+    },
+    credentials: true
   })
 );
 
