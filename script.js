@@ -337,11 +337,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const loadSeo = async () => {
+        try {
+            const meta = await fetchJson('/api/site-meta');
+            if (meta.page_title) {
+                document.title = meta.page_title;
+            }
+            if (meta.meta_description) {
+                let metaDesc = document.querySelector('meta[name="description"]');
+                if (!metaDesc) {
+                    metaDesc = document.createElement('meta');
+                    metaDesc.name = 'description';
+                    document.head.appendChild(metaDesc);
+                }
+                metaDesc.content = meta.meta_description;
+            }
+            if (meta.keywords) {
+                let metaKeys = document.querySelector('meta[name="keywords"]');
+                if (!metaKeys) {
+                    metaKeys = document.createElement('meta');
+                    metaKeys.name = 'keywords';
+                    document.head.appendChild(metaKeys);
+                }
+                metaKeys.content = meta.keywords;
+            }
+        } catch (error) {
+            console.warn('Gagal memuat meta SEO:', error);
+        }
+    };
+
     const loadPublicContent = async () => {
         try {
             const [products, content] = await Promise.all([
                 fetchJson('/api/public/products'),
-                fetchJson('/api/public/content')
+                fetchJson('/api/public/content'),
+                loadSeo()
             ]);
             renderProducts(products);
             applyPromoBanner(content?.promo);
