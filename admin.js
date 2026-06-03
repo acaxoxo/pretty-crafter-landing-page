@@ -1,5 +1,4 @@
 const tokenKey = 'pretty_crafter_admin_token';
-const checklistKey = 'pretty_crafter_checklist';
 
 const apiBaseUrl = (() => {
   const meta = document.querySelector('meta[name="api-base-url"]');
@@ -40,9 +39,6 @@ const seoTitle = document.getElementById('seoTitle');
 const seoDescription = document.getElementById('seoDescription');
 const seoKeywords = document.getElementById('seoKeywords');
 const seoOgImage = document.getElementById('seoOgImage');
-
-const checklistTimestamp = document.getElementById('checklistTimestamp');
-const checklistItems = document.querySelectorAll('.check-item');
 
 const notify = (message, type = 'info') => {
   let toast = document.getElementById('adminToast');
@@ -244,40 +240,6 @@ const loadSeo = async () => {
   if (seoOgImage) seoOgImage.value = meta.og_image_url || '';
 };
 
-const loadChecklist = () => {
-  const stored = localStorage.getItem(checklistKey);
-  if (!stored) {
-    checklistTimestamp.textContent = 'Belum ada pemeriksaan.';
-    checklistItems.forEach((item) => {
-      item.checked = false;
-    });
-    return;
-  }
-
-  const data = JSON.parse(stored);
-  checklistItems.forEach((item) => {
-    const key = item.dataset.key;
-    item.checked = Boolean(data?.items?.[key]);
-  });
-  if (data?.timestamp) {
-    const date = new Date(data.timestamp);
-    checklistTimestamp.textContent = `Terakhir dicek: ${date.toLocaleString('id-ID')}`;
-  }
-};
-
-const saveChecklist = () => {
-  const items = {};
-  checklistItems.forEach((item) => {
-    items[item.dataset.key] = item.checked;
-  });
-  const payload = {
-    items,
-    timestamp: new Date().toISOString()
-  };
-  localStorage.setItem(checklistKey, JSON.stringify(payload));
-  loadChecklist();
-};
-
 const initAuth = async () => {
   const token = getToken();
   if (!token) {
@@ -301,7 +263,6 @@ const initAuth = async () => {
 
 const refreshAll = async () => {
   await Promise.all([loadProducts(), loadLeads(), loadOrders(), loadSummary(), loadSeo()]);
-  loadChecklist();
 };
 
 loginForm?.addEventListener('submit', async (event) => {
@@ -507,10 +468,6 @@ seoForm?.addEventListener('submit', async (event) => {
   } catch (error) {
     notify(error.message || 'Gagal menyimpan meta.', 'error');
   }
-});
-
-checklistItems.forEach((item) => {
-  item.addEventListener('change', saveChecklist);
 });
 
 const navButtons = document.querySelectorAll('.nav-btn');
