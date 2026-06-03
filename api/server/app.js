@@ -66,9 +66,35 @@ const buildOrderCode = () => {
   const rand = Math.floor(1000 + Math.random() * 9000);
   return `PC-${datePart}-${rand}`;
 };
-
 const adminSessionTtlMs = 8 * 60 * 60 * 1000;
-const adminSessions = new Map();
+const sessionSecret = process.env.SESSION_SECRET || 'pretty-crafter-default-secret-key-12345';
+
+const createSignedToken = (data) => {
+  const payload = Buffer.from(JSON.stringify(data)).toString('base64url');
+  const signature = crypto.createHmac('sha256', sessionSecret).update(payload).digest('base64url');
+  return `${payload}.${signature}`;
+};
+
+const verifySignedToken = (token) => {
+  if (!token) return null;
+  const parts = token.split('.');
+  if (parts.length !== 2) return null;
+
+  const [payload, signature] = parts;
+  const expectedSignature = crypto.createHmac('sha256', sessionSecret).update(payload).digest('base64url');
+
+  if (signature !== expectedSignature) return null;
+
+  try {
+    const data = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
+    if (data.expiresAt && data.expiresAt <= Date.now()) {
+      return null;
+    }
+    return data;
+  } catch (e) {
+    return null;
+  }
+};
 
 const getAdminCredentials = () => ({
   username: process.env.ADMIN_USERNAME,
@@ -86,26 +112,17 @@ const isValidAdminCredential = (username, password) => {
 };
 
 const createAdminSession = () => {
-  const token = crypto.randomUUID();
   const expiresAt = Date.now() + adminSessionTtlMs;
-  adminSessions.set(token, { expiresAt });
+  const token = createSignedToken({ expiresAt });
   return { token, expiresAt };
 };
 
 const getAdminSession = (token) => {
-  if (!token) return null;
-  const session = adminSessions.get(token);
-  if (!session) return null;
-  if (session.expiresAt <= Date.now()) {
-    adminSessions.delete(token);
-    return null;
-  }
-  return session;
+  return verifySignedToken(token);
 };
 
 const revokeAdminSession = (token) => {
-  if (!token) return;
-  adminSessions.delete(token);
+  // Stateless token cannot be revoked easily without store.
 };
 
 const requireAdminAuth = (req, res, next) => {
