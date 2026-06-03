@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit';
 import { getConnection } from './db.js';
 
 const app = express();
+app.set('trust proxy', 1);
 
 const allowedOrigins = (process.env.CORS_ORIGINS || '')
   .split(',')
