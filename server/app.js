@@ -488,72 +488,7 @@ app.delete('/api/admin/products/:id', requireAdminAuth, async (req, res) => {
   }
 });
 
-app.get('/api/admin/leads', requireAdminAuth, async (req, res) => {
-  const { status, q } = req.query || {};
-  const connection = await getConnection();
-  try {
-    const conditions = [];
-    const params = [];
-    if (status) {
-      conditions.push('status = ?');
-      params.push(status);
-    }
-    if (q) {
-      conditions.push('(name LIKE ? OR phone LIKE ?)');
-      params.push(`%${q}%`, `%${q}%`);
-    }
-    const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';
-    const [rows] = await connection.query(
-      `SELECT id, name, phone, message, status, notes, created_at
-       FROM leads
-       ${whereClause}
-       ORDER BY created_at DESC`,
-      params
-    );
-    res.json(rows);
-  } catch (error) {
-    console.error('Leads fetch failed:', error);
-    res.status(500).json({ error: 'Gagal memuat leads.' });
-  } finally {
-    connection.release();
-  }
-});
 
-app.patch('/api/admin/leads/:id', requireAdminAuth, async (req, res) => {
-  const leadId = req.params.id;
-  const { status, notes } = req.body || {};
-
-  const updates = [];
-  const params = [];
-  if (status) {
-    updates.push('status = ?');
-    params.push(status);
-  }
-  if (notes !== undefined) {
-    updates.push('notes = ?');
-    params.push(notes || null);
-  }
-
-  if (updates.length === 0) {
-    return res.status(400).json({ error: 'Tidak ada data yang diubah.' });
-  }
-
-  params.push(leadId);
-
-  const connection = await getConnection();
-  try {
-    await connection.query(
-      `UPDATE leads SET ${updates.join(', ')} WHERE id = ?`,
-      params
-    );
-    res.json({ ok: true });
-  } catch (error) {
-    console.error('Lead update failed:', error);
-    res.status(500).json({ error: 'Gagal memperbarui lead.' });
-  } finally {
-    connection.release();
-  }
-});
 
 app.get('/api/admin/orders', requireAdminAuth, async (req, res) => {
   const { status } = req.query || {};

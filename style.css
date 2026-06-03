@@ -923,3 +923,131 @@ html.dark *:focus-visible {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ============================================
+   INDEX CUSTOM STYLING (MOVED FROM INDEX.HTML)
+   ============================================ */
+* {
+  font-family: "Poppins", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Cormorant Garamond", serif;
+  font-weight: 600;
+}
+
+/* Muted Color Palette */
+:root {
+  --pink-primary: #d4839a;
+  --pink-light: #e8c4cf;
+  --pink-lighter: #f3dce3;
+  --pink-dark: #b8697f;
+  --text-primary: #5a4a52;
+  --text-secondary: #8b7a83;
+}
+
+/* CTA Background Animation - FIXED: Added overflow containment */
+.cta-final {
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-final::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle,
+      rgba(255, 255, 255, 0.1) 1px,
+      transparent 1px);
+  background-size: 50px 50px;
+  background-position: 0 0;
+}
+
+.cta-final>* {
+  position: relative;
+  z-index: 1;
+}
+
+.cta-final a {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Hero image hover animation */
+.hero-image img {
+  transition:
+    transform 0.4s ease,
+    filter 0.4s ease;
+  filter: brightness(1);
+}
+
+.hero-image:hover img {
+  transform: scale(1.03);
+  filter: brightness(1.02);
+}
+
+/* Product image hover - subtle */
+.product-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-card {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.product-card:hover {
+  box-shadow: 0 8px 20px rgba(212, 131, 154, 0.12);
+  transform: translateY(-2px);
+}
+
+/* Subtle button hover */
+button:hover,
+a[class*="bg-"]:hover {
+  transition: all 0.3s ease;
+}
+
+/* Scroll-to-top button styling */
+.scroll-to-top:not(.hidden) {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+}
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.dark-mode-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* SVG Icons Animation */
+.moon-icon,
+.sun-icon {
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.dark-mode-toggle:hover svg {
+  transform: rotate(20deg);
+}
+
+html.dark .dark-mode-toggle:hover svg {
+  transform: rotate(-20deg);
+}

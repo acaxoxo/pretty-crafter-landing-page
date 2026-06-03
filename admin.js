@@ -23,11 +23,6 @@ const productActive = document.getElementById('productActive');
 const productReset = document.getElementById('productReset');
 const productsTable = document.getElementById('productsTable');
 
-const leadStatusFilter = document.getElementById('leadStatusFilter');
-const leadSearch = document.getElementById('leadSearch');
-const leadSearchBtn = document.getElementById('leadSearchBtn');
-const leadsContainer = document.getElementById('leadsContainer');
-
 const orderStatusFilter = document.getElementById('orderStatusFilter');
 const exportOrdersBtn = document.getElementById('exportOrders');
 const ordersTable = document.getElementById('ordersTable');
@@ -133,48 +128,6 @@ const loadProducts = async () => {
   });
 };
 
-const loadLeads = async () => {
-  const params = new URLSearchParams();
-  if (leadStatusFilter?.value) params.set('status', leadStatusFilter.value);
-  if (leadSearch?.value) params.set('q', leadSearch.value);
-  const response = await fetchWithAuth(`/api/admin/leads?${params.toString()}`);
-  const leads = await response.json();
-
-  if (!leadsContainer) return;
-  leadsContainer.innerHTML = '';
-
-  leads.forEach((lead) => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div style="display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;">
-        <div>
-          <h3 style="margin:0 0 6px; font-size:15px;">${lead.name}</h3>
-          <div class="note">${lead.phone}</div>
-          <p style="margin:10px 0 0; font-size:13px;">${lead.message}</p>
-        </div>
-        <div style="min-width:200px;">
-          <div class="form-group">
-            <label>Status</label>
-            <select data-lead-status>
-              <option value="new" ${lead.status === 'new' ? 'selected' : ''}>New</option>
-              <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>Contacted</option>
-              <option value="converted" ${lead.status === 'converted' ? 'selected' : ''}>Converted</option>
-              <option value="closed" ${lead.status === 'closed' ? 'selected' : ''}>Closed</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Catatan</label>
-            <textarea rows="2" data-lead-notes>${lead.notes || ''}</textarea>
-          </div>
-          <button class="primary-btn" data-action="save" data-id="${lead.id}">Simpan</button>
-        </div>
-      </div>
-    `;
-    leadsContainer.appendChild(card);
-  });
-};
-
 const loadOrders = async () => {
   const params = new URLSearchParams();
   if (orderStatusFilter?.value) params.set('status', orderStatusFilter.value);
@@ -215,9 +168,7 @@ const loadSummary = async () => {
     { label: 'Total Order', value: summary.total_orders },
     { label: 'Order Bulan Ini', value: summary.month_orders },
     { label: 'Pendapatan Total', value: `Rp ${Number(summary.total_revenue).toLocaleString('id-ID')}` },
-    { label: 'Pendapatan Bulan Ini', value: `Rp ${Number(summary.month_revenue).toLocaleString('id-ID')}` },
-    { label: 'Total Leads', value: summary.total_leads },
-    { label: 'Leads Baru', value: summary.new_leads }
+    { label: 'Pendapatan Bulan Ini', value: `Rp ${Number(summary.month_revenue).toLocaleString('id-ID')}` }
   ];
 
   stats.forEach((stat) => {
@@ -262,7 +213,7 @@ const initAuth = async () => {
 };
 
 const refreshAll = async () => {
-  await Promise.all([loadProducts(), loadLeads(), loadOrders(), loadSummary(), loadSeo()]);
+  await Promise.all([loadProducts(), loadOrders(), loadSummary(), loadSeo()]);
 };
 
 loginForm?.addEventListener('submit', async (event) => {
@@ -386,31 +337,6 @@ productsTable?.addEventListener('click', async (event) => {
     } catch (error) {
       notify(error.message || 'Gagal menghapus produk.', 'error');
     }
-  }
-});
-
-leadSearchBtn?.addEventListener('click', async () => {
-  await loadLeads();
-});
-
-leadsContainer?.addEventListener('click', async (event) => {
-  const button = event.target.closest('button[data-action="save"]');
-  if (!button) return;
-  const card = button.closest('.card');
-  const statusSelect = card?.querySelector('[data-lead-status]');
-  const notesInput = card?.querySelector('[data-lead-notes]');
-
-  try {
-    await fetchWithAuth(`/api/admin/leads/${button.dataset.id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({
-        status: statusSelect?.value,
-        notes: notesInput?.value || ''
-      })
-    });
-    notify('Lead diperbarui.', 'success');
-  } catch (error) {
-    notify(error.message || 'Gagal memperbarui lead.', 'error');
   }
 });
 
