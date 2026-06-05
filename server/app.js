@@ -169,6 +169,10 @@ const parseContentValue = (value) => {
   return trimmed;
 };
 
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to Pretty Crafter API Server' });
+});
+
 app.get('/health', (req, res) => {
   res.json({ ok: true });
 });
