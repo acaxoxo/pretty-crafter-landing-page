@@ -237,8 +237,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     };
 
+    let lastProductsJson = '';
+
     const renderProducts = (products) => {
         if (!productGrid) return;
+
+        const currentJson = JSON.stringify(products);
+        if (currentJson === lastProductsJson) {
+            return;
+        }
+        lastProductsJson = currentJson;
+
         if (!Array.isArray(products) || products.length === 0) {
             productGrid.innerHTML = '<p class="text-center text-[#8b7a83]">Belum ada produk.</p>';
             return;
@@ -366,6 +375,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const startProductPolling = () => {
+        setInterval(async () => {
+            try {
+                const products = await fetchJson('/api/public/products');
+                renderProducts(products);
+            } catch (error) {
+                console.warn('Gagal memuat produk secara background:', error);
+            }
+        }, 5000); // refresh every 5 seconds
+    };
+
     const loadPublicContent = async () => {
         try {
             const [products, content] = await Promise.all([
@@ -376,6 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
             renderProducts(products);
             applyPromoBanner(content?.promo);
             renderTestimonials(content?.testimonials || []);
+            startProductPolling();
         } catch (error) {
             if (productGrid) {
                 productGrid.innerHTML = '<p class="text-center text-[#8b7a83]">Gagal memuat produk.</p>';
