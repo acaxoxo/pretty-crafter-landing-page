@@ -60,7 +60,7 @@
         <section id="section-content" class="card">
           <h2>Manajemen Produk</h2>
           <div class="note">Kelola produk yang tampil di landing page.</div>
-          <div style="margin-top:16px">
+          <div class="table-responsive" style="margin-top:16px">
             <table class="table" id="productsTable">
               <thead>
                 <tr>
@@ -124,18 +124,20 @@
             </select>
             <button id="exportOrders" class="primary-btn" type="button">Export CSV</button>
           </div>
-          <table class="table" id="ordersTable">
-            <thead>
-              <tr>
-                <th>Kode</th>
-                <th>Pelanggan</th>
-                <th>Total</th>
-                <th>Pembayaran</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+          <div class="table-responsive">
+            <table class="table" id="ordersTable">
+              <thead>
+                <tr>
+                  <th>Kode</th>
+                  <th>Pelanggan</th>
+                  <th>Total</th>
+                  <th>Pembayaran</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
         </section>
 
         <section id="section-analytics" class="card hidden">
